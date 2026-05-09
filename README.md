@@ -85,41 +85,51 @@ app-meteorologia/
 
 Clone o repositório:
 
+```bash
 git clone https://github.com/KefilweLourenco/app-meteorologia.git
+```
 
 Acesse a pasta do projeto:
 
+```bash
 cd app-meteorologia
+```
 
 Instale as dependências:
 
+```bash
 npm install
+```
 
-## Execute o projeto:
+Execute o projeto:
 
+```bash
 npm run dev
+```
 
 Depois, abra no navegador o endereço exibido no terminal. Normalmente:
 
+```bash
 http://localhost:5173/
-Gerar build de produção
+```
+
+## Gerar build de produção
+
+```bash
 npm run build
-Prompt usado no framework TRACI
+```
 
-## Tarefa:
-Criar uma função que receba o nome de uma cidade, busque latitude e longitude na API de Geocodificação da Open-Meteo e depois consulte a previsão do tempo usando essas coordenadas.
+## Prompt usado no framework TRACI
 
-Papel:
-Usar JavaScript moderno, React, Fetch API e boas práticas de organização de código.
+**Tarefa:** Criar uma função que receba o nome de uma cidade, busque latitude e longitude na API de Geocodificação da Open-Meteo e depois consulte a previsão do tempo usando essas coordenadas.
 
-Público:
-O código deve ser amigável para iniciantes, com nomes claros, funções bem separadas e mensagens de erro fáceis de entender.
+**Papel:** Usar JavaScript moderno, React, Fetch API e boas práticas de organização de código.
 
-Criar:
-A função deve retornar dados como cidade, temperatura atual, sensação térmica, umidade, vento, descrição do clima e previsão dos próximos dias.
+**Público:** O código deve ser amigável para iniciantes, com nomes claros, funções bem separadas e mensagens de erro fáceis de entender.
 
-Intenção:
-A função deve tratar cidade vazia, cidade inválida, erro de conexão, erro da API e resposta incompleta. A previsão deve ser buscada sempre por latitude e longitude, nunca diretamente pelo nome da cidade.
+**Criar:** A função deve retornar dados como cidade, temperatura atual, sensação térmica, umidade, vento, descrição do clima e previsão dos próximos dias.
+
+**Intenção:** A função deve tratar cidade vazia, cidade inválida, erro de conexão, erro da API e resposta incompleta. A previsão deve ser buscada sempre por latitude e longitude, nunca diretamente pelo nome da cidade.
 
 ## Análise da função gerada
 
@@ -127,50 +137,53 @@ A função segue a proposta porque primeiro transforma o nome da cidade em coord
 
 Depois, usa latitude e longitude para consultar a Forecast API da Open-Meteo.
 
-## O projeto também trata situações como:
+O projeto também trata situações como:
 
-campo vazio;
-cidade não encontrada;
-falha de conexão;
-erro retornado pela API;
-resposta incompleta;
-permissão de localização negada.
-Melhorias aplicadas
+- campo vazio;
+- cidade não encontrada;
+- falha de conexão;
+- erro retornado pela API;
+- resposta incompleta;
+- permissão de localização negada.
 
-## Durante o refinamento do código, foram feitas as seguintes melhorias:
+## Melhorias aplicadas
 
-correção do parâmetro current na Forecast API;
-uso de URLSearchParams para montar a URL com mais segurança;
-validação dos dados retornados pela API antes de usá-los;
-mensagens de erro mais claras;
-separação do código em componentes, serviços e utilitários.
-Teste realizado
+Durante o refinamento do código, foram feitas as seguintes melhorias:
 
-Teste feito com a cidade São Paulo.
+- correção do parâmetro `current` na Forecast API;
+- uso de `URLSearchParams` para montar a URL com mais segurança;
+- validação dos dados retornados pela API antes de usá-los;
+- mensagens de erro mais claras;
+- separação do código em componentes, serviços e utilitários.
 
-## Fluxo validado:
+## Teste realizado
 
-O usuário informa o nome da cidade.
-O app consulta a Geocoding API.
-A API retorna latitude e longitude.
-O app consulta a Forecast API usando as coordenadas.
-O app exibe os dados do clima na tela.
+Teste feito com a cidade **São Paulo**.
+
+Fluxo validado:
+
+1. O usuário informa o nome da cidade.
+2. O app consulta a Geocoding API.
+3. A API retorna latitude e longitude.
+4. O app consulta a Forecast API usando as coordenadas.
+5. O app exibe os dados do clima na tela.
 
 Também foi testado o comportamento com cidade inválida, exibindo mensagem de erro para o usuário.
 
 ## Relação com a Generation Brasil
 
-Este projeto foi desenvolvido como prática de front-end na Generation Brasil.
+Este projeto foi desenvolvido como prática de front-end na **Generation Brasil**.
 
 Ele reúne conceitos de:
 
-React;
-componentização;
-consumo de API;
-tratamento de erros;
-responsividade;
-versionamento com Git e GitHub;
-deploy com GitHub Pages.
-Publicação
+- React;
+- componentização;
+- consumo de API;
+- tratamento de erros;
+- responsividade;
+- versionamento com Git e GitHub;
+- deploy com GitHub Pages.
 
-O projeto está publicado no GitHub Pages.
+## Publicação
+
+O projeto está publicado no **GitHub Pages**.
