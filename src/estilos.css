@@ -1,0 +1,235 @@
+:root {
+  --cor-fundo-topo: #8ad7ff;
+  --cor-fundo-base: #0a7bb5;
+  --cor-superficie: rgba(255, 255, 255, 0.9);
+  --cor-superficie-forte: rgba(255, 255, 255, 0.97);
+  --cor-texto: #12323b;
+  --cor-texto-suave: #4a6a74;
+  --cor-destaque: #0b6176;
+  --cor-destaque-escura: #084c5d;
+  --cor-sucesso: #166b55;
+  --sombra-painel: 0 22px 55px rgba(8, 76, 93, 0.2);
+  --borda-suave: rgba(11, 97, 118, 0.12);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: var(--cor-texto);
+  background:
+    radial-gradient(circle at top left, rgba(255, 255, 255, 0.48), transparent 32%),
+    linear-gradient(155deg, var(--cor-fundo-topo), var(--cor-fundo-base));
+}
+
+button,
+input {
+  font: inherit;
+}
+
+.aplicativo {
+  width: min(980px, calc(100% - 2rem));
+  margin: 0 auto;
+  padding: 3rem 0 4rem;
+}
+
+.hero {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.etiqueta {
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: rgba(18, 50, 59, 0.72);
+}
+
+.hero h1 {
+  margin: 0.5rem 0 0.75rem;
+  font-size: clamp(2.2rem, 4vw, 3.8rem);
+}
+
+.subtitulo {
+  max-width: 680px;
+  margin: 0 auto;
+  line-height: 1.6;
+  color: var(--cor-texto-suave);
+}
+
+.painel-principal,
+.cartao-clima {
+  background: var(--cor-superficie);
+  border: 1px solid var(--borda-suave);
+  border-radius: 28px;
+  box-shadow: var(--sombra-painel);
+  backdrop-filter: blur(14px);
+}
+
+.painel-principal {
+  padding: 1.5rem;
+}
+
+.formulario-busca {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.rotulo-campo {
+  font-weight: 700;
+}
+
+.linha-busca {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.linha-busca input {
+  flex: 1;
+  border: 1px solid rgba(11, 97, 118, 0.18);
+  border-radius: 16px;
+  padding: 1rem 1.1rem;
+  background: var(--cor-superficie-forte);
+}
+
+.linha-busca button,
+.botao-localizacao {
+  border: 0;
+  border-radius: 16px;
+  padding: 0 1.45rem;
+  background: linear-gradient(135deg, var(--cor-destaque), var(--cor-destaque-escura));
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.linha-busca button {
+  min-width: 130px;
+}
+
+.botao-localizacao {
+  margin-top: 1rem;
+  min-height: 3.25rem;
+  width: 100%;
+}
+
+.linha-busca button:disabled,
+.botao-localizacao:disabled {
+  cursor: wait;
+  opacity: 0.72;
+}
+
+.mensagem {
+  min-height: 1.5rem;
+  margin: 1rem 0 0;
+  color: var(--cor-texto-suave);
+}
+
+.mensagem-sucesso {
+  color: var(--cor-sucesso);
+}
+
+.cartao-clima {
+  margin-top: 1.5rem;
+  padding: 1.5rem;
+}
+
+.cabecalho-clima {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.legenda,
+.descricao-clima,
+.origem-clima,
+.cartao-previsao p,
+.cartao-detalhe span {
+  color: var(--cor-texto-suave);
+}
+
+.cabecalho-clima h2 {
+  margin: 0.25rem 0 0;
+  font-size: 1.7rem;
+}
+
+.descricao-clima,
+.origem-clima {
+  margin: 0.4rem 0 0;
+}
+
+.temperatura-destaque {
+  margin: 0;
+  font-size: clamp(2.8rem, 5vw, 4.4rem);
+  font-weight: 800;
+}
+
+.grade-detalhes,
+.grade-previsao {
+  display: grid;
+  gap: 1rem;
+}
+
+.grade-detalhes {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: 1.5rem 0;
+}
+
+.cartao-detalhe,
+.cartao-previsao {
+  background: rgba(255, 255, 255, 0.74);
+  border: 1px solid rgba(11, 97, 118, 0.1);
+  border-radius: 20px;
+  padding: 1rem;
+}
+
+.cartao-detalhe span {
+  display: block;
+  margin-bottom: 0.45rem;
+}
+
+.secao-previsao h3 {
+  margin: 0 0 1rem;
+}
+
+.grade-previsao {
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+}
+
+.cartao-previsao strong,
+.cartao-previsao p {
+  display: block;
+  margin: 0;
+}
+
+.cartao-previsao p + p {
+  margin-top: 0.5rem;
+}
+
+@media (max-width: 700px) {
+  .aplicativo {
+    padding-top: 2rem;
+  }
+
+  .linha-busca,
+  .cabecalho-clima {
+    flex-direction: column;
+  }
+
+  .grade-detalhes {
+    grid-template-columns: 1fr;
+  }
+
+  .linha-busca button,
+  .botao-localizacao {
+    min-height: 3.2rem;
+    width: 100%;
+  }
+}
