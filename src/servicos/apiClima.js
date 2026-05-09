@@ -162,7 +162,7 @@ async function buscarPrevisao(latitude, longitude) {
     throw new Error(dados.reason || "Nao foi possivel buscar o clima agora.");
   }
 
-  if (!dados.current || !dados.daily) {
+  if (!dados.current || !dados.daily || !Array.isArray(dados.daily.time)) {
     throw new Error("A API retornou uma resposta incompleta. Tente novamente.");
   }
 
