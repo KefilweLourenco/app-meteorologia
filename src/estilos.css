@@ -1,16 +1,17 @@
 :root {
-  --cor-fundo-topo: #bfe9ff;
-  --cor-fundo-meio: #6fc8f4;
-  --cor-fundo-base: #1d8fcb;
+  --cor-fundo-topo: #d3f0ff;
+  --cor-fundo-meio: #75cdf7;
+  --cor-fundo-base: #1f9ae0;
   --cor-superficie: rgba(255, 255, 255, 0.9);
   --cor-superficie-forte: rgba(255, 255, 255, 0.97);
   --cor-texto: #12323b;
   --cor-texto-suave: #4a6a74;
-  --cor-destaque: #0d6c87;
-  --cor-destaque-escura: #0a5368;
+  --cor-destaque: #0d6582;
+  --cor-destaque-escura: #093f55;
   --cor-sucesso: #166b55;
-  --sombra-painel: 0 22px 55px rgba(13, 83, 104, 0.18);
-  --borda-suave: rgba(13, 108, 135, 0.12);
+  --cor-rodape: #0b1720;
+  --sombra-painel: 0 22px 55px rgba(9, 63, 85, 0.18);
+  --borda-suave: rgba(13, 101, 130, 0.12);
 }
 
 * {
@@ -23,7 +24,7 @@ body {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   color: var(--cor-texto);
   background:
-    radial-gradient(circle at top left, rgba(255, 255, 255, 0.62), transparent 34%),
+    radial-gradient(circle at top left, rgba(255, 255, 255, 0.64), transparent 34%),
     linear-gradient(180deg, var(--cor-fundo-topo) 0%, var(--cor-fundo-meio) 42%, var(--cor-fundo-base) 100%);
 }
 
@@ -49,7 +50,7 @@ input {
   letter-spacing: 0.2em;
   font-size: 0.75rem;
   font-weight: 700;
-  color: rgba(18, 50, 59, 0.68);
+  color: rgba(18, 50, 59, 0.72);
 }
 
 .hero h1 {
@@ -96,7 +97,7 @@ input {
 .linha-busca input {
   flex: 1;
   min-width: 0;
-  border: 1px solid rgba(13, 108, 135, 0.18);
+  border: 1px solid rgba(13, 101, 130, 0.18);
   border-radius: 16px;
   padding: 1rem 1.1rem;
   background: var(--cor-superficie-forte);
@@ -155,8 +156,7 @@ input {
 .descricao-clima,
 .origem-clima,
 .cartao-previsao p,
-.cartao-detalhe span,
-.rodape {
+.cartao-detalhe span {
   color: var(--cor-texto-suave);
 }
 
@@ -190,7 +190,7 @@ input {
 .cartao-detalhe,
 .cartao-previsao {
   background: rgba(255, 255, 255, 0.74);
-  border: 1px solid rgba(13, 108, 135, 0.1);
+  border: 1px solid rgba(13, 101, 130, 0.1);
   border-radius: 20px;
   padding: 1rem;
 }
@@ -222,6 +222,8 @@ input {
   margin-top: 1.5rem;
   text-align: center;
   font-size: 0.95rem;
+  color: var(--cor-rodape);
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.16);
 }
 
 .rodape p {

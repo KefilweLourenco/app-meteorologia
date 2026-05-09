@@ -119,7 +119,7 @@ function App() {
 
       <footer className="rodape">
         <p>2026</p>
-        <p>Desenvolvido por Kefilwe Lourenço</p>
+        <p>Desenvolvido por Kefilwe Lourenco</p>
       </footer>
     </main>
   );
