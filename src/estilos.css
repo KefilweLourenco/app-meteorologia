@@ -9,7 +9,7 @@
   --cor-destaque: #0d6582;
   --cor-destaque-escura: #093f55;
   --cor-sucesso: #166b55;
-  --cor-rodape: #0b1720;
+  --cor-rodape: rgba(18, 50, 59, 0.72);
   --sombra-painel: 0 22px 55px rgba(9, 63, 85, 0.18);
   --borda-suave: rgba(13, 101, 130, 0.12);
 }
@@ -223,7 +223,6 @@ input {
   text-align: center;
   font-size: 0.95rem;
   color: var(--cor-rodape);
-  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.16);
 }
 
 .rodape p {
