@@ -29,7 +29,14 @@ async function buscarCidade(cidade) {
   let resposta;
 
   try {
-    const url = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(cidade)}&count=1&language=pt&format=json`;
+    const parametros = new URLSearchParams({
+      name: cidade,
+      count: "1",
+      language: "pt",
+      format: "json"
+    });
+
+    const url = `https://geocoding-api.open-meteo.com/v1/search?${parametros.toString()}`;
     resposta = await fetch(url);
   } catch {
     throw new Error("Falha de conexao ao buscar a cidade. Verifique sua internet e tente novamente.");
@@ -37,7 +44,11 @@ async function buscarCidade(cidade) {
 
   const dados = await converterRespostaEmJson(resposta);
 
-  if (!resposta.ok || !dados.results || dados.results.length === 0) {
+  if (!resposta.ok || dados.error) {
+    throw new Error(dados.reason || "Nao foi possivel buscar a cidade agora.");
+  }
+
+  if (!dados.results || dados.results.length === 0) {
     throw new Error("Cidade nao encontrada. Tente outro nome.");
   }
 
@@ -48,7 +59,14 @@ async function buscarNomeDaLocalizacao(latitude, longitude) {
   let resposta;
 
   try {
-    const url = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latitude}&lon=${longitude}&accept-language=pt-BR`;
+    const parametros = new URLSearchParams({
+      format: "jsonv2",
+      lat: String(latitude),
+      lon: String(longitude),
+      "accept-language": "pt-BR"
+    });
+
+    const url = `https://nominatim.openstreetmap.org/reverse?${parametros.toString()}`;
     resposta = await fetch(url);
   } catch {
     return `Sua localizacao atual (${latitude.toFixed(2)}, ${longitude.toFixed(2)})`;
@@ -81,7 +99,29 @@ function descreverCodigoClima(codigo) {
   return codigosClima[codigo] || "Sem descricao";
 }
 
+function montarPrevisaoDiaria(dadosDaily) {
+  if (
+    !dadosDaily.time ||
+    !dadosDaily.weather_code ||
+    !dadosDaily.temperature_2m_max ||
+    !dadosDaily.temperature_2m_min
+  ) {
+    throw new Error("A API retornou uma resposta incompleta. Tente novamente.");
+  }
+
+  return dadosDaily.time.map((data, indice) => ({
+    data,
+    descricao: descreverCodigoClima(dadosDaily.weather_code[indice]),
+    maxima: dadosDaily.temperature_2m_max[indice],
+    minima: dadosDaily.temperature_2m_min[indice]
+  }));
+}
+
 function montarRespostaClima(local, dados, origem = "cidade atual") {
+  if (!dados.current || !dados.daily) {
+    throw new Error("A API retornou uma resposta incompleta. Tente novamente.");
+  }
+
   const nomeCompletoCidade = `${local.name}${local.admin1 ? `, ${local.admin1}` : ""}${local.country ? `, ${local.country}` : ""}`;
 
   return {
@@ -92,12 +132,7 @@ function montarRespostaClima(local, dados, origem = "cidade atual") {
     umidade: dados.current.relative_humidity_2m,
     velocidadeVento: dados.current.wind_speed_10m,
     descricao: descreverCodigoClima(dados.current.weather_code),
-    previsao: dados.daily.time.map((data, indice) => ({
-      data,
-      descricao: descreverCodigoClima(dados.daily.weather_code[indice]),
-      maxima: dados.daily.temperature_2m_max[indice],
-      minima: dados.daily.temperature_2m_min[indice]
-    }))
+    previsao: montarPrevisaoDiaria(dados.daily)
   };
 }
 
@@ -105,7 +140,17 @@ async function buscarPrevisao(latitude, longitude) {
   let resposta;
 
   try {
-    const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,apparent_temperature,relative_humidity_2m,weather_code,wind_speed_10m&daily=weather_code,temperature_2m_max,temperature_2m_min&forecast_days=5&timezone=auto`;
+    const parametros = new URLSearchParams({
+      latitude: String(latitude),
+      longitude: String(longitude),
+      current:
+        "temperature_2m,apparent_temperature,relative_humidity_2m,weather_code,wind_speed_10m",
+      daily: "weather_code,temperature_2m_max,temperature_2m_min",
+      forecast_days: "5",
+      timezone: "auto"
+    });
+
+    const url = `https://api.open-meteo.com/v1/forecast?${parametros.toString()}`;
     resposta = await fetch(url);
   } catch {
     throw new Error("Falha de conexao ao buscar o clima. Verifique sua internet e tente novamente.");
@@ -113,8 +158,12 @@ async function buscarPrevisao(latitude, longitude) {
 
   const dados = await converterRespostaEmJson(resposta);
 
-  if (!resposta.ok) {
-    throw new Error("Nao foi possivel buscar o clima agora.");
+  if (!resposta.ok || dados.error) {
+    throw new Error(dados.reason || "Nao foi possivel buscar o clima agora.");
+  }
+
+  if (!dados.current || !dados.daily) {
+    throw new Error("A API retornou uma resposta incompleta. Tente novamente.");
   }
 
   return dados;
@@ -140,11 +189,6 @@ export async function buscarClimaPorCoordenadas(latitude, longitude) {
     umidade: dados.current.relative_humidity_2m,
     velocidadeVento: dados.current.wind_speed_10m,
     descricao: descreverCodigoClima(dados.current.weather_code),
-    previsao: dados.daily.time.map((data, indice) => ({
-      data,
-      descricao: descreverCodigoClima(dados.daily.weather_code[indice]),
-      maxima: dados.daily.temperature_2m_max[indice],
-      minima: dados.daily.temperature_2m_min[indice]
-    }))
+    previsao: montarPrevisaoDiaria(dados.daily)
   };
 }

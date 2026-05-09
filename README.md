@@ -1,6 +1,6 @@
 # App Meteorologia
 
-Aplicativo web de meteorologia desenvolvido em React, com consumo da API Open-Meteo para consulta do clima atual e previsão dos próximos dias. O projeto permite pesquisa por cidade e também oferece a opção de usar a localização atual do usuário, mediante permissão do navegador.
+Aplicativo web de meteorologia desenvolvido em React, com consumo da API Open-Meteo para consulta do clima atual e previsao dos proximos dias. O projeto permite pesquisa por cidade e tambem oferece a opcao de usar a localizacao atual do usuario, mediante permissao do navegador.
 
 ## Tecnologias utilizadas
 
@@ -14,51 +14,51 @@ Aplicativo web de meteorologia desenvolvido em React, com consumo da API Open-Me
 
 ## Link do projeto
 
-[Acessar aplicação publicada](https://kefilwelourenco.github.io/app-meteorologia/)
+[Acessar aplicacao publicada](https://kefilwelourenco.github.io/app-meteorologia/)
 
-## Demonstração em vídeo
+## Demonstracao em video
 
-- [Vídeo da versão mobile](./public/videos/demo-mobile.mp4)
-- [Vídeo da versão desktop](./public/videos/demo-desktop.mp4)
+- [Video da versao mobile](./public/videos/demo-mobile.mp4)
+- [Video da versao desktop](./public/videos/demo-desktop.mp4)
 
 ## Funcionalidades
 
 - Busca do clima pelo nome da cidade.
-- Consulta automática com base na localização atual do usuário.
-- Exibição de temperatura atual, sensação térmica, umidade e velocidade do vento.
-- Previsão dos próximos dias.
-- Identificação da origem da consulta: cidade pesquisada ou localização atual.
+- Consulta automatica com base na localizacao atual do usuario.
+- Exibicao de temperatura atual, sensacao termica, umidade e velocidade do vento.
+- Previsao dos proximos dias.
+- Identificacao da origem da consulta: cidade pesquisada ou localizacao atual.
 - Interface responsiva para desktop e mobile.
 
-## Permissão de localização
+## Permissao de localizacao
 
-Para usar a funcionalidade de localização em tempo real, é importante verificar se o navegador tem permissão para acessar a localização do dispositivo.
+Para usar a funcionalidade de localizacao em tempo real, e importante verificar se o navegador tem permissao para acessar a localizacao do dispositivo.
 
 ## Estrutura do projeto
 
 ```text
 app-meteorologia/
-├── public/
-│   └── videos/
-│       ├── demo-desktop.mp4
-│       └── demo-mobile.mp4
-├── src/
-│   ├── componentes/
-│   │   └── CartaoClima.jsx
-│   ├── servicos/
-│   │   └── apiClima.js
-│   ├── utilitarios/
-│   │   └── formatadores.js
-│   ├── App.jsx
-│   ├── estilos.css
-│   └── main.jsx
-├── .github/
-│   └── workflows/
-│       └── pages.yml
-├── index.html
-├── package.json
-├── vite.config.js
-└── README.md
+|-- public/
+|   |-- videos/
+|       |-- demo-desktop.mp4
+|       |-- demo-mobile.mp4
+|-- src/
+|   |-- componentes/
+|   |   |-- CartaoClima.jsx
+|   |-- servicos/
+|   |   |-- apiClima.js
+|   |-- utilitarios/
+|   |   |-- formatadores.js
+|   |-- App.jsx
+|   |-- estilos.css
+|   |-- main.jsx
+|-- .github/
+|   |-- workflows/
+|       |-- pages.yml
+|-- index.html
+|-- package.json
+|-- vite.config.js
+|-- README.md
 ```
 
 ## Como executar localmente
@@ -68,24 +68,76 @@ npm install
 npm run dev
 ```
 
-Depois, abra o endereço exibido no terminal, normalmente:
+Depois, abra o endereco exibido no terminal, normalmente:
 
 ```bash
 http://localhost:5173/
 ```
 
-## Build de produção
+## Build de producao
 
 ```bash
 npm run build
 ```
 
-## Publicação
+## Publicacao
 
-Este projeto está configurado para publicação no GitHub Pages com GitHub Actions.
+Este projeto esta configurado para publicacao no GitHub Pages com GitHub Actions.
 
-## Relação com a Generation Brasil
+## Relacao com a Generation Brasil
 
-Este projeto representa minha experiência prática na Generation Brasil, aplicando conceitos de desenvolvimento front-end, organização de componentes, consumo de API, responsividade, versionamento e deploy.
+Este projeto representa minha experiencia pratica na Generation Brasil, aplicando conceitos de desenvolvimento front-end, organizacao de componentes, consumo de API, responsividade, versionamento e deploy.
 
-Além da funcionalidade principal de consulta de clima, o projeto também demonstra evolução incremental de requisitos, preocupação com experiência do usuário e integração entre interface, dados externos e publicação web.
+Alem da funcionalidade principal de consulta de clima, o projeto tambem demonstra evolucao incremental de requisitos, preocupacao com experiencia do usuario e integracao entre interface, dados externos e publicacao web.
+
+## Prompt utilizado com framework TRACI
+
+**Tarefa:** Criar uma funcao que receba o nome de uma cidade, consulte a API de Geocodificacao da Open-Meteo para obter latitude e longitude, e depois consulte a API de previsao do tempo usando essas coordenadas.
+
+**Papel:** Usar JavaScript moderno, fetch API, React e boas praticas de organizacao em funcoes assincronas.
+
+**Publico:** Codigo amigavel para iniciantes, com nomes claros, separacao de responsabilidades e mensagens de erro compreensiveis.
+
+**Criar:** A funcao deve retornar um objeto com cidade, origem da consulta, temperatura atual, sensacao termica, umidade, velocidade do vento, descricao do clima e previsao dos proximos dias.
+
+**Intencao:** A funcao deve tratar cidade vazia, cidade invalida, erro de conexao, erro da API e resposta incompleta. A previsao deve ser buscada sempre por latitude e longitude, nunca diretamente pelo nome da cidade.
+
+## Analise da funcao gerada
+
+A funcao segue a instrucao principal porque primeiro usa a Geocoding API para transformar o nome da cidade em latitude e longitude. Depois usa essas coordenadas no endpoint Forecast da Open-Meteo.
+
+Foram tratados:
+
+- entrada vazia;
+- cidade nao encontrada;
+- falha de conexao;
+- erro retornado pela API;
+- resposta incompleta da API;
+- permissao negada de geolocalizacao, quando aplicavel.
+
+## Refinamento aplicado
+
+Melhorias aplicadas no projeto:
+
+- correcao do parametro `current` na Forecast API;
+- uso de `URLSearchParams` para montar URLs com mais seguranca;
+- validacao de `dados.current` e `dados.daily` antes do uso;
+- validacao da estrutura da previsao diaria;
+- mensagens de erro mais claras para o usuario;
+- organizacao do fluxo entre geocodificacao, previsao e interface React.
+
+## Teste final
+
+Teste realizado com a cidade: Sao Paulo.
+
+Fluxo validado:
+
+1. O usuario digita o nome da cidade.
+2. O app consulta a Geocoding API da Open-Meteo.
+3. A API retorna latitude e longitude.
+4. O app usa essas coordenadas para consultar a Forecast API.
+5. O app exibe temperatura atual, sensacao termica, umidade, vento e previsao dos proximos dias.
+
+Resultado esperado:
+
+O app deve exibir os dados climaticos sem erro e sem buscar clima diretamente pelo nome da cidade.
