@@ -1,15 +1,16 @@
 :root {
-  --cor-fundo-topo: #8ad7ff;
-  --cor-fundo-base: #0a7bb5;
+  --cor-fundo-topo: #bfe9ff;
+  --cor-fundo-meio: #6fc8f4;
+  --cor-fundo-base: #1d8fcb;
   --cor-superficie: rgba(255, 255, 255, 0.9);
   --cor-superficie-forte: rgba(255, 255, 255, 0.97);
   --cor-texto: #12323b;
   --cor-texto-suave: #4a6a74;
-  --cor-destaque: #0b6176;
-  --cor-destaque-escura: #084c5d;
+  --cor-destaque: #0d6c87;
+  --cor-destaque-escura: #0a5368;
   --cor-sucesso: #166b55;
-  --sombra-painel: 0 22px 55px rgba(8, 76, 93, 0.2);
-  --borda-suave: rgba(11, 97, 118, 0.12);
+  --sombra-painel: 0 22px 55px rgba(13, 83, 104, 0.18);
+  --borda-suave: rgba(13, 108, 135, 0.12);
 }
 
 * {
@@ -22,8 +23,8 @@ body {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   color: var(--cor-texto);
   background:
-    radial-gradient(circle at top left, rgba(255, 255, 255, 0.48), transparent 32%),
-    linear-gradient(155deg, var(--cor-fundo-topo), var(--cor-fundo-base));
+    radial-gradient(circle at top left, rgba(255, 255, 255, 0.62), transparent 34%),
+    linear-gradient(180deg, var(--cor-fundo-topo) 0%, var(--cor-fundo-meio) 42%, var(--cor-fundo-base) 100%);
 }
 
 button,
@@ -34,7 +35,7 @@ input {
 .aplicativo {
   width: min(980px, calc(100% - 2rem));
   margin: 0 auto;
-  padding: 3rem 0 4rem;
+  padding: 3rem 0 2.5rem;
 }
 
 .hero {
@@ -48,18 +49,20 @@ input {
   letter-spacing: 0.2em;
   font-size: 0.75rem;
   font-weight: 700;
-  color: rgba(18, 50, 59, 0.72);
+  color: rgba(18, 50, 59, 0.68);
 }
 
 .hero h1 {
   margin: 0.5rem 0 0.75rem;
   font-size: clamp(2.2rem, 4vw, 3.8rem);
+  line-height: 0.95;
 }
 
 .subtitulo {
   max-width: 680px;
   margin: 0 auto;
   line-height: 1.6;
+  font-size: 1.08rem;
   color: var(--cor-texto-suave);
 }
 
@@ -92,7 +95,8 @@ input {
 
 .linha-busca input {
   flex: 1;
-  border: 1px solid rgba(11, 97, 118, 0.18);
+  min-width: 0;
+  border: 1px solid rgba(13, 108, 135, 0.18);
   border-radius: 16px;
   padding: 1rem 1.1rem;
   background: var(--cor-superficie-forte);
@@ -151,7 +155,8 @@ input {
 .descricao-clima,
 .origem-clima,
 .cartao-previsao p,
-.cartao-detalhe span {
+.cartao-detalhe span,
+.rodape {
   color: var(--cor-texto-suave);
 }
 
@@ -185,7 +190,7 @@ input {
 .cartao-detalhe,
 .cartao-previsao {
   background: rgba(255, 255, 255, 0.74);
-  border: 1px solid rgba(11, 97, 118, 0.1);
+  border: 1px solid rgba(13, 108, 135, 0.1);
   border-radius: 20px;
   padding: 1rem;
 }
@@ -213,9 +218,46 @@ input {
   margin-top: 0.5rem;
 }
 
+.rodape {
+  margin-top: 1.5rem;
+  text-align: center;
+  font-size: 0.95rem;
+}
+
+.rodape p {
+  margin: 0.2rem 0;
+}
+
 @media (max-width: 700px) {
   .aplicativo {
-    padding-top: 2rem;
+    width: min(100%, calc(100% - 1rem));
+    padding: 1.5rem 0 2rem;
+  }
+
+  .hero {
+    margin-bottom: 1.25rem;
+  }
+
+  .etiqueta {
+    font-size: 0.68rem;
+    letter-spacing: 0.16em;
+  }
+
+  .hero h1 {
+    margin: 0.35rem 0 0.65rem;
+    font-size: clamp(2.3rem, 13vw, 3.4rem);
+  }
+
+  .subtitulo {
+    max-width: 100%;
+    font-size: 0.98rem;
+    line-height: 1.45;
+  }
+
+  .painel-principal,
+  .cartao-clima {
+    border-radius: 24px;
+    padding: 1.15rem;
   }
 
   .linha-busca,
@@ -223,13 +265,67 @@ input {
     flex-direction: column;
   }
 
+  .cabecalho-clima h2 {
+    font-size: 1.28rem;
+    line-height: 1.15;
+  }
+
+  .temperatura-destaque {
+    font-size: 3.15rem;
+  }
+
   .grade-detalhes {
     grid-template-columns: 1fr;
+    margin: 1.1rem 0;
+  }
+
+  .grade-previsao {
+    grid-template-columns: 1fr;
+    gap: 0.85rem;
+  }
+
+  .cartao-previsao,
+  .cartao-detalhe {
+    border-radius: 18px;
+    padding: 0.9rem;
   }
 
   .linha-busca button,
   .botao-localizacao {
     min-height: 3.2rem;
     width: 100%;
+  }
+
+  .mensagem {
+    font-size: 0.98rem;
+    line-height: 1.45;
+  }
+
+  .rodape {
+    font-size: 0.88rem;
+    padding: 0 0.5rem;
+  }
+}
+
+@media (max-width: 420px) {
+  .aplicativo {
+    width: min(100%, calc(100% - 0.75rem));
+  }
+
+  .hero h1 {
+    font-size: clamp(2rem, 12vw, 2.8rem);
+  }
+
+  .linha-busca input {
+    padding: 0.9rem 1rem;
+    font-size: 0.98rem;
+  }
+
+  .cabecalho-clima h2 {
+    font-size: 1.15rem;
+  }
+
+  .temperatura-destaque {
+    font-size: 2.8rem;
   }
 }

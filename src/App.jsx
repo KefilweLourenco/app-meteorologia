@@ -116,6 +116,11 @@ function App() {
 
         {dadosClima ? <CartaoClima dados={dadosClima} /> : null}
       </section>
+
+      <footer className="rodape">
+        <p>2026</p>
+        <p>Desenvolvido por Kefilwe Lourenço</p>
+      </footer>
     </main>
   );
 }
