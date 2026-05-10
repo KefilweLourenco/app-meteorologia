@@ -1,162 +1,199 @@
 # Casos de Teste
 
-Este documento reúne os principais cenários de teste do aplicativo de meteorologia, considerando busca por cidade, uso da localização atual, integração com a Geocoding API da Open-Meteo e integração com a Forecast API.
+Este documento reune os principais cenarios de teste do aplicativo de meteorologia, considerando busca por cidade, uso da localizacao atual, integracao com a Geocoding API da Open-Meteo e integracao com a Forecast API.
+
+## Casos automatizados implementados com Vitest
+
+Os testes automatizados foram criados no arquivo `src/servicos/apiClima.test.js`, com foco nas funcoes do servico `apiClima.js`.
+
+### Resultado atual
+
+- 12 testes aprovados;
+- nenhum acesso real a API durante os testes;
+- `fetch` totalmente mockado;
+- foco na validacao do fluxo da Geocoding API e da Forecast API.
+
+### O que os testes validam
+
+#### buscarCidade
+
+- deve retornar cidade, latitude e longitude quando a Geocoding API responde com sucesso;
+- deve lancar erro quando a cidade nao existe;
+- deve lancar erro quando a API retorna erro;
+- deve lancar erro quando a entrada estiver vazia;
+- deve lancar erro em falha de rede.
+
+#### buscarPrevisao
+
+- deve montar a requisicao usando latitude e longitude;
+- deve retornar dados quando a Forecast API responde corretamente;
+- deve lancar erro quando a resposta nao tiver `current`;
+- deve lancar erro quando a resposta nao tiver `daily`;
+- deve lancar erro quando `daily.time` nao for um array;
+- deve lancar erro em falha de rede;
+- deve lancar erro quando a Forecast API retorna erro.
+
+### Comando para executar
+
+```bash
+npm run test
+```
 
 ## 1. Casos de sucesso
 
-### Buscar clima com cidade válida
+### Buscar clima com cidade valida
 
-**Cenário:** o usuário digita uma cidade existente, como `São Paulo`.
+**Cenario:** o usuario digita uma cidade existente, como `Sao Paulo`.
 
 **Comportamento esperado:**
 - o app chama a Geocoding API;
-- obtém latitude e longitude;
+- obtem latitude e longitude;
 - consulta a Forecast API com essas coordenadas;
-- exibe cidade, temperatura, sensação térmica, umidade, vento e previsão dos próximos dias.
+- exibe cidade, temperatura, sensacao termica, umidade, vento e previsao dos proximos dias.
 
-### Buscar clima com cidade válida contendo espaço
+### Buscar clima com cidade valida contendo espaco
 
-**Cenário:** o usuário digita uma cidade com espaço no nome.
+**Cenario:** o usuario digita uma cidade com espaco no nome.
 
 **Comportamento esperado:**
-- a entrada é tratada corretamente;
-- a cidade é encontrada;
-- os dados climáticos são exibidos normalmente.
+- a entrada e tratada corretamente;
+- a cidade e encontrada;
+- os dados climaticos sao exibidos normalmente.
 
 ### Buscar clima com caracteres acentuados
 
-**Cenário:** o usuário digita uma cidade com acentos.
+**Cenario:** o usuario digita uma cidade com acentos.
 
 **Comportamento esperado:**
-- a cidade é enviada corretamente para a Geocoding API;
+- a cidade e enviada corretamente para a Geocoding API;
 - a busca funciona sem quebrar a interface.
 
-### Buscar clima usando localização atual
+### Buscar clima usando localizacao atual
 
-**Cenário:** o usuário permite acesso à localização do navegador.
+**Cenario:** o usuario permite acesso a localizacao do navegador.
 
 **Comportamento esperado:**
 - o navegador retorna latitude e longitude;
 - o app consulta a Forecast API com essas coordenadas;
-- os dados são exibidos com a origem `localizacao atual`.
+- os dados sao exibidos com a origem `localizacao atual`.
 
-### Exibir previsão dos próximos dias
+### Exibir previsao dos proximos dias
 
-**Cenário:** a API retorna resposta completa.
+**Cenario:** a API retorna resposta completa.
 
 **Comportamento esperado:**
-- todos os cards da previsão são renderizados corretamente;
-- máximas, mínimas e descrição do clima aparecem sem erro.
+- todos os cards da previsao sao renderizados corretamente;
+- maximas, minimas e descricao do clima aparecem sem erro.
 
 ## 2. Casos de erro de entrada
 
 ### Campo vazio
 
-**Cenário:** o usuário tenta buscar sem digitar nada.
+**Cenario:** o usuario tenta buscar sem digitar nada.
 
 **Comportamento esperado:**
-- o app não chama nenhuma API;
+- o app nao chama nenhuma API;
 - exibe a mensagem `Digite o nome de uma cidade.`
 
-### Campo com apenas espaços
+### Campo com apenas espacos
 
-**Cenário:** o usuário digita apenas espaços.
-
-**Comportamento esperado:**
-- o valor é tratado como vazio;
-- a busca não é executada;
-- a mensagem de erro é exibida.
-
-### Cidade inválida
-
-**Cenário:** o usuário digita uma cidade inexistente.
+**Cenario:** o usuario digita apenas espacos.
 
 **Comportamento esperado:**
-- a Geocoding API não retorna resultados;
+- o valor e tratado como vazio;
+- a busca nao e executada;
+- a mensagem de erro e exibida.
+
+### Cidade invalida
+
+**Cenario:** o usuario digita uma cidade inexistente.
+
+**Comportamento esperado:**
+- a Geocoding API nao retorna resultados;
 - o app exibe `Cidade nao encontrada. Tente outro nome.`
 
 ## 3. Casos de erro da API
 
-### Falha de conexão na Geocoding API
+### Falha de conexao na Geocoding API
 
-**Cenário:** a requisição de geocodificação falha por falta de internet ou erro de rede.
+**Cenario:** a requisicao de geocodificacao falha por falta de internet ou erro de rede.
 
 **Comportamento esperado:**
 - o app exibe `Falha de conexao ao buscar a cidade. Verifique sua internet e tente novamente.`
 
-### Falha de conexão na Forecast API
+### Falha de conexao na Forecast API
 
-**Cenário:** a requisição de previsão falha por falta de internet ou erro de rede.
+**Cenario:** a requisicao de previsao falha por falta de internet ou erro de rede.
 
 **Comportamento esperado:**
 - o app exibe `Falha de conexao ao buscar o clima. Verifique sua internet e tente novamente.`
 
 ### Erro retornado pela API
 
-**Cenário:** a API retorna erro com `reason`.
+**Cenario:** a API retorna erro com `reason`.
 
 **Comportamento esperado:**
 - o app usa `dados.reason` quando existir;
-- caso contrário, exibe `Nao foi possivel buscar o clima agora.`
+- caso contrario, exibe `Nao foi possivel buscar o clima agora.`
 
 ### Resposta incompleta da Forecast API
 
-**Cenário:** a API retorna resposta sem `current`, sem `daily` ou com `daily.time` inválido.
+**Cenario:** a API retorna resposta sem `current`, sem `daily` ou com `daily.time` invalido.
 
 **Comportamento esperado:**
-- o app não tenta acessar propriedades inexistentes;
+- o app nao tenta acessar propriedades inexistentes;
 - exibe `A API retornou uma resposta incompleta. Tente novamente.`
 
-### Resposta inválida em JSON
+### Resposta invalida em JSON
 
-**Cenário:** a API retorna algo que não pode ser interpretado como JSON.
+**Cenario:** a API retorna algo que nao pode ser interpretado como JSON.
 
 **Comportamento esperado:**
-- o app informa que não foi possível interpretar a resposta da API.
+- o app informa que nao foi possivel interpretar a resposta da API.
 
 ## 4. Casos extremos
 
 ### Cidade muito longa
 
-**Cenário:** o usuário digita um nome extremamente grande.
+**Cenario:** o usuario digita um nome extremamente grande.
 
 **Comportamento esperado:**
-- o app continua estável;
-- retorna resultado válido ou mensagem de cidade não encontrada.
+- o app continua estavel;
+- retorna resultado valido ou mensagem de cidade nao encontrada.
 
-### Cidade com números e símbolos
+### Cidade com numeros e simbolos
 
-**Cenário:** o usuário digita caracteres incomuns.
-
-**Comportamento esperado:**
-- o app não quebra;
-- exibe erro amigável se a cidade não existir.
-
-### Permissão de localização negada
-
-**Cenário:** o navegador bloqueia ou o usuário recusa a geolocalização.
+**Cenario:** o usuario digita caracteres incomuns.
 
 **Comportamento esperado:**
-- o app informa que a permissão foi negada;
-- o usuário ainda pode buscar por cidade manualmente.
+- o app nao quebra;
+- exibe erro amigavel se a cidade nao existir.
 
-### Navegador sem suporte a geolocalização
+### Permissao de localizacao negada
 
-**Cenário:** o navegador não suporta `navigator.geolocation`.
-
-**Comportamento esperado:**
-- o app informa que o navegador não suporta geolocalização.
-
-### Timeout na localização
-
-**Cenário:** a localização demora para responder.
+**Cenario:** o navegador bloqueia ou o usuario recusa a geolocalizacao.
 
 **Comportamento esperado:**
-- o app exibe mensagem informando que a localização demorou para responder.
+- o app informa que a permissao foi negada;
+- o usuario ainda pode buscar por cidade manualmente.
 
-### Nova busca após erro anterior
+### Navegador sem suporte a geolocalizacao
 
-**Cenário:** o usuário faz uma nova busca depois de uma falha.
+**Cenario:** o navegador nao suporta `navigator.geolocation`.
+
+**Comportamento esperado:**
+- o app informa que o navegador nao suporta geolocalizacao.
+
+### Timeout na localizacao
+
+**Cenario:** a localizacao demora para responder.
+
+**Comportamento esperado:**
+- o app exibe mensagem informando que a localizacao demorou para responder.
+
+### Nova busca apos erro anterior
+
+**Cenario:** o usuario faz uma nova busca depois de uma falha.
 
 **Comportamento esperado:**
 - o app continua funcional;
@@ -168,6 +205,6 @@ Este documento reúne os principais cenários de teste do aplicativo de meteorol
 - A Geocoding API deve ser chamada antes da Forecast API quando a busca for por cidade.
 - O app nunca deve buscar clima diretamente pelo nome da cidade na Forecast API.
 - O app deve validar a entrada antes de chamar a API.
-- O app deve exibir mensagens de erro claras para o usuário.
+- O app deve exibir mensagens de erro claras para o usuario.
 - O app deve validar a estrutura da resposta antes de renderizar os dados.
 - O app deve informar a origem da consulta: `busca por cidade` ou `localizacao atual`.
