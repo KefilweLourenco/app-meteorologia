@@ -21,7 +21,7 @@ O projeto usa a **API Open-Meteo** para consultar o clima atual e a previsao dos
 
 ## Demonstracao
 
-https://github.com/user-attachments/assets/ca3fb47e-f630-4c01-a768-020679fcab44
+https://github.com/user-attachments/assets/ac959305-a89f-42de-ab6e-d37802cbabcd
 
 ## Funcionalidades
 
