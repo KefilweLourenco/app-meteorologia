@@ -17,6 +17,64 @@ const codigosClima = {
   95: "Trovoadas"
 };
 
+const DURACAO_CACHE_EM_MS = 10 * 60 * 1000;
+
+function obterArmazenamentoDeSessao() {
+  if (typeof window === "undefined" || !window.sessionStorage) {
+    return null;
+  }
+
+  return window.sessionStorage;
+}
+
+function lerCache(chave) {
+  const armazenamento = obterArmazenamentoDeSessao();
+
+  if (!armazenamento) {
+    return null;
+  }
+
+  try {
+    const valor = armazenamento.getItem(chave);
+
+    if (!valor) {
+      return null;
+    }
+
+    const item = JSON.parse(valor);
+    const expirou = Date.now() - item.timestamp > DURACAO_CACHE_EM_MS;
+
+    if (expirou) {
+      armazenamento.removeItem(chave);
+      return null;
+    }
+
+    return item.data;
+  } catch {
+    return null;
+  }
+}
+
+function salvarCache(chave, dados) {
+  const armazenamento = obterArmazenamentoDeSessao();
+
+  if (!armazenamento) {
+    return;
+  }
+
+  try {
+    armazenamento.setItem(
+      chave,
+      JSON.stringify({
+        timestamp: Date.now(),
+        data: dados
+      })
+    );
+  } catch {
+    // Ignora falhas de escrita no cache para nao bloquear o fluxo principal.
+  }
+}
+
 async function converterRespostaEmJson(resposta) {
   try {
     return await resposta.json();
@@ -25,12 +83,24 @@ async function converterRespostaEmJson(resposta) {
   }
 }
 
-async function buscarCidade(cidade) {
+export async function buscarCidade(cidade) {
+  if (!cidade || !cidade.trim()) {
+    throw new Error("Digite o nome de uma cidade.");
+  }
+
+  const cidadeNormalizada = cidade.trim();
+  const chaveCacheCidade = `cidade:${cidadeNormalizada.toLowerCase()}`;
+  const cidadeEmCache = lerCache(chaveCacheCidade);
+
+  if (cidadeEmCache) {
+    return cidadeEmCache;
+  }
+
   let resposta;
 
   try {
     const parametros = new URLSearchParams({
-      name: cidade,
+      name: cidadeNormalizada,
       count: "1",
       language: "pt",
       format: "json"
@@ -52,7 +122,10 @@ async function buscarCidade(cidade) {
     throw new Error("Cidade nao encontrada. Tente outro nome.");
   }
 
-  return dados.results[0];
+  const cidadeEncontrada = dados.results[0];
+  salvarCache(chaveCacheCidade, cidadeEncontrada);
+
+  return cidadeEncontrada;
 }
 
 async function buscarNomeDaLocalizacao(latitude, longitude) {
@@ -136,7 +209,14 @@ function montarRespostaClima(local, dados, origem = "cidade atual") {
   };
 }
 
-async function buscarPrevisao(latitude, longitude) {
+export async function buscarPrevisao(latitude, longitude) {
+  const chaveCachePrevisao = `previsao:${latitude},${longitude}`;
+  const previsaoEmCache = lerCache(chaveCachePrevisao);
+
+  if (previsaoEmCache) {
+    return previsaoEmCache;
+  }
+
   let resposta;
 
   try {
@@ -165,6 +245,8 @@ async function buscarPrevisao(latitude, longitude) {
   if (!dados.current || !dados.daily || !Array.isArray(dados.daily.time)) {
     throw new Error("A API retornou uma resposta incompleta. Tente novamente.");
   }
+
+  salvarCache(chaveCachePrevisao, dados);
 
   return dados;
 }
