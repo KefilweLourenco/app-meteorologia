@@ -1,61 +1,107 @@
-// Hook do React para guardar e atualizar estados da tela.
-import { useState } from "react";
-// Componente responsável por mostrar os dados do clima.
+import { useEffect, useState } from "react";
 import CartaoClima from "./componentes/CartaoClima";
-// Funções que consultam o clima pela cidade ou pela localização atual.
-import { buscarClimaPorCidade, buscarClimaPorCoordenadas } from "./servicos/apiClima";
+import { IconeBusca } from "./componentes/Icones";
+import {
+  buscarClimaPorCidade,
+  buscarClimaPorCoordenadas,
+  buscarClimaPorSugestao,
+  buscarSugestoesCidade
+} from "./servicos/apiClima";
 
 function App() {
-  // Guarda o que o usuário digitou no campo de cidade.
   const [cidade, setCidade] = useState("");
-  // Guarda a mensagem exibida para orientar o usuário.
-  const [mensagem, setMensagem] = useState("Digite uma cidade ou use sua localizacao atual.");
-  // Guarda os dados do clima recebidos da API.
+  const [mensagem, setMensagem] = useState("Digite uma cidade ou use sua localizacao.");
+  const [tipoMensagem, setTipoMensagem] = useState("info");
   const [dadosClima, setDadosClima] = useState(null);
-  // Controla o estado de carregamento para evitar ações duplicadas.
   const [carregando, setCarregando] = useState(false);
+  const [sugestoes, setSugestoes] = useState([]);
+  const [carregandoSugestoes, setCarregandoSugestoes] = useState(false);
+  const [mostrarSugestoes, setMostrarSugestoes] = useState(false);
+  const [indiceSugestaoAtiva, setIndiceSugestaoAtiva] = useState(-1);
+  const [sugestaoSelecionada, setSugestaoSelecionada] = useState(null);
 
-  // Executa a busca quando o usuário envia o formulário da cidade.
-  async function aoEnviarFormulario(evento) {
-    // Evita recarregar a página ao enviar o formulário.
-    evento.preventDefault();
+  function atualizarMensagem(texto, tipo = "info") {
+    setMensagem(texto);
+    setTipoMensagem(tipo);
+  }
 
-    // Remove espaços extras antes de validar a entrada.
-    const cidadeFormatada = cidade.trim();
-    if (!cidadeFormatada) {
-      setMensagem("Digite o nome de uma cidade.");
-      return;
+  useEffect(() => {
+    const termo = cidade.trim();
+
+    if (termo.length < 2) {
+      setSugestoes([]);
+      setCarregandoSugestoes(false);
+      setIndiceSugestaoAtiva(-1);
+      return undefined;
     }
 
-    // Ativa o estado de carregamento e informa o que está acontecendo.
+    let ativo = true;
+    setCarregandoSugestoes(true);
+
+    const temporizador = window.setTimeout(async () => {
+      const resultado = await buscarSugestoesCidade(termo);
+
+      if (!ativo) {
+        return;
+      }
+
+      setSugestoes(resultado);
+      setCarregandoSugestoes(false);
+      setIndiceSugestaoAtiva(resultado.length > 0 ? 0 : -1);
+    }, 350);
+
+    return () => {
+      ativo = false;
+      window.clearTimeout(temporizador);
+    };
+  }, [cidade]);
+
+  async function buscarClimaPrincipal(textoCidade, sugestaoEscolhida = null) {
+    setMostrarSugestoes(false);
+    setIndiceSugestaoAtiva(-1);
     setCarregando(true);
-    setMensagem("Buscando previsao...");
+    atualizarMensagem("Carregando previsao do tempo...", "info");
 
     try {
-      // Busca o clima usando o nome da cidade digitada.
-      const resposta = await buscarClimaPorCidade(cidadeFormatada);
+      const resposta = sugestaoEscolhida
+        ? await buscarClimaPorSugestao(sugestaoEscolhida)
+        : await buscarClimaPorCidade(textoCidade);
+
       setDadosClima(resposta);
-      setMensagem("Clima carregado com sucesso.");
+      atualizarMensagem("Sucesso: clima carregado.", "sucesso");
     } catch (erro) {
-      // Em caso de erro, limpa os dados antigos e mostra a mensagem recebida.
       setDadosClima(null);
-      setMensagem(erro.message || "Nao foi possivel buscar o clima agora.");
+      atualizarMensagem(erro.message || "Erro: nao foi possivel buscar o clima agora.", "erro");
     } finally {
-      // Finaliza o carregamento mesmo que a busca dê erro.
       setCarregando(false);
     }
   }
 
-  // Pede ao navegador as coordenadas atuais do usuário.
+  async function aoEnviarFormulario(evento) {
+    evento.preventDefault();
+
+    const cidadeFormatada = cidade.trim();
+    if (!cidadeFormatada) {
+      atualizarMensagem("Erro: digite o nome de uma cidade.", "erro");
+      return;
+    }
+
+    const deveUsarSugestaoSelecionada =
+      sugestaoSelecionada && cidadeFormatada === sugestaoSelecionada.label;
+
+    await buscarClimaPrincipal(
+      cidadeFormatada,
+      deveUsarSugestaoSelecionada ? sugestaoSelecionada : null
+    );
+  }
+
   function obterCoordenadasAtuais() {
     return new Promise((resolve, reject) => {
-      // Se o navegador não tiver suporte, o app já avisa o usuário.
       if (!navigator.geolocation) {
         reject(new Error("Seu navegador nao suporta geolocalizacao."));
         return;
       }
 
-      // Solicita latitude e longitude ao navegador.
       navigator.geolocation.getCurrentPosition(resolve, reject, {
         enableHighAccuracy: true,
         timeout: 10000,
@@ -64,88 +110,191 @@ function App() {
     });
   }
 
-  // Executa a busca quando o usuário pede para usar a localização atual.
   async function aoUsarLocalizacaoAtual() {
+    setMostrarSugestoes(false);
+    setIndiceSugestaoAtiva(-1);
     setCarregando(true);
-    setMensagem("Solicitando sua localizacao...");
+    atualizarMensagem("Solicitando sua localizacao...", "info");
 
     try {
-      // Primeiro pega as coordenadas do navegador.
       const posicao = await obterCoordenadasAtuais();
       const { latitude, longitude } = posicao.coords;
-      setMensagem("Buscando clima da sua localizacao atual...");
+      atualizarMensagem("Carregando clima da sua localizacao...", "info");
 
-      // Depois busca o clima usando latitude e longitude.
       const resposta = await buscarClimaPorCoordenadas(latitude, longitude);
       setDadosClima(resposta);
-      setMensagem("Clima da sua localizacao carregado com sucesso.");
+      atualizarMensagem("Sucesso: clima da sua localizacao carregado.", "sucesso");
     } catch (erro) {
       setDadosClima(null);
 
-      // Trata os principais erros de geolocalização de forma amigável.
       if (erro.code === 1) {
-        setMensagem("Permissao de localizacao negada. Voce ainda pode buscar por cidade.");
+        atualizarMensagem("Erro: permissao de localizacao negada. Voce ainda pode buscar por cidade.", "erro");
       } else if (erro.code === 2) {
-        setMensagem("Nao foi possivel identificar sua localizacao atual.");
+        atualizarMensagem("Erro: nao foi possivel identificar sua localizacao atual.", "erro");
       } else if (erro.code === 3) {
-        setMensagem("A localizacao demorou para responder. Tente novamente.");
+        atualizarMensagem("Erro: a localizacao demorou para responder. Tente novamente.", "erro");
       } else {
-        setMensagem(erro.message || "Nao foi possivel usar sua localizacao agora.");
+        atualizarMensagem(erro.message || "Erro: nao foi possivel usar sua localizacao agora.", "erro");
       }
     } finally {
       setCarregando(false);
     }
   }
 
+  function aoSelecionarSugestao(sugestao) {
+    setCidade(sugestao.label);
+    setSugestaoSelecionada(sugestao);
+    setSugestoes([]);
+    setMostrarSugestoes(false);
+    setIndiceSugestaoAtiva(-1);
+  }
+
+  function aoTeclarNoCampo(evento) {
+    if (!mostrarSugestoes || sugestoes.length === 0) {
+      return;
+    }
+
+    if (evento.key === "ArrowDown") {
+      evento.preventDefault();
+      setIndiceSugestaoAtiva((indiceAtual) => {
+        const proximoIndice = indiceAtual + 1;
+        return proximoIndice >= sugestoes.length ? 0 : proximoIndice;
+      });
+      return;
+    }
+
+    if (evento.key === "ArrowUp") {
+      evento.preventDefault();
+      setIndiceSugestaoAtiva((indiceAtual) => {
+        const proximoIndice = indiceAtual - 1;
+        return proximoIndice < 0 ? sugestoes.length - 1 : proximoIndice;
+      });
+      return;
+    }
+
+    if (evento.key === "Enter" && indiceSugestaoAtiva >= 0) {
+      evento.preventDefault();
+      const sugestaoEscolhida = sugestoes[indiceSugestaoAtiva];
+      aoSelecionarSugestao(sugestaoEscolhida);
+      buscarClimaPrincipal(sugestaoEscolhida.label, sugestaoEscolhida);
+      return;
+    }
+
+    if (evento.key === "Escape") {
+      setMostrarSugestoes(false);
+      setIndiceSugestaoAtiva(-1);
+    }
+  }
+
   return (
     <main className="aplicativo">
-      {/* Área de apresentação do projeto. */}
-      <section className="hero">
+      <header className="hero">
         <p className="etiqueta">Clima em tempo real</p>
         <h1>App de Meteorologia</h1>
         <p className="subtitulo">
-          Consulte o clima atual da sua cidade ou permita que o site identifique sua localizacao automaticamente.
+          Consulte o clima atual da sua cidade ou use sua localizacao.
         </p>
-      </section>
+      </header>
 
-      {/* Painel principal com busca e resultado. */}
-      <section className="painel-principal">
-        {/* Formulário usado para pesquisar pelo nome da cidade. */}
+      <section className="painel-principal" aria-busy={carregando} aria-labelledby="titulo-busca">
+        <h2 id="titulo-busca" className="sr-only">Buscar clima</h2>
         <form className="formulario-busca" onSubmit={aoEnviarFormulario}>
           <label htmlFor="cidade" className="rotulo-campo">Nome da cidade</label>
-          <div className="linha-busca">
-            <input
-              id="cidade"
-              type="text"
-              placeholder="Ex.: Sao Paulo"
-              value={cidade}
-              onChange={(evento) => setCidade(evento.target.value)}
-            />
-            {/* O botão muda de texto enquanto a busca está acontecendo. */}
-            <button type="submit" disabled={carregando}>
-              {carregando ? "Carregando..." : "Buscar"}
-            </button>
+          <p id="ajuda-cidade" className="texto-ajuda">
+            Digite duas letras ou mais para ver sugestoes.
+          </p>
+
+          <div className="area-busca">
+            <div className="linha-busca">
+              <input
+                id="cidade"
+                type="text"
+                placeholder="Ex.: Sao Paulo"
+                autoComplete="off"
+                value={cidade}
+                role="combobox"
+                aria-autocomplete="list"
+                aria-expanded={mostrarSugestoes && sugestoes.length > 0}
+                aria-controls="lista-sugestoes-cidade"
+                aria-activedescendant={
+                  indiceSugestaoAtiva >= 0 ? `sugestao-cidade-${indiceSugestaoAtiva}` : undefined
+                }
+                aria-describedby="ajuda-cidade"
+                onChange={(evento) => {
+                  setCidade(evento.target.value);
+                  setSugestaoSelecionada(null);
+                  setMostrarSugestoes(true);
+                  setIndiceSugestaoAtiva(-1);
+                }}
+                onFocus={() => {
+                  if (sugestoes.length > 0) {
+                    setMostrarSugestoes(true);
+                  }
+                }}
+                onKeyDown={aoTeclarNoCampo}
+              />
+
+              <button type="submit" disabled={carregando}>
+                <IconeBusca />
+                <span>{carregando ? "Carregando..." : "Buscar"}</span>
+              </button>
+            </div>
+
+            {mostrarSugestoes && (sugestoes.length > 0 || carregandoSugestoes) ? (
+              <div
+                className="lista-sugestoes"
+                id="lista-sugestoes-cidade"
+                role="listbox"
+                aria-label="Sugestoes de cidades"
+              >
+                {carregandoSugestoes ? (
+                  <p className="sugestao-status" role="status">Buscando sugestoes...</p>
+                ) : (
+                  sugestoes.map((sugestao, indice) => (
+                    <button
+                      key={sugestao.id}
+                      id={`sugestao-cidade-${indice}`}
+                      type="button"
+                      role="option"
+                      aria-selected={indice === indiceSugestaoAtiva}
+                      className={`item-sugestao ${indice === indiceSugestaoAtiva ? "item-sugestao-ativa" : ""}`}
+                      onMouseDown={(evento) => evento.preventDefault()}
+                      onClick={() => aoSelecionarSugestao(sugestao)}
+                    >
+                      <strong>{sugestao.nome}</strong>
+                      <span>
+                        {sugestao.estado}
+                        {sugestao.estado && sugestao.pais ? ", " : ""}
+                        {sugestao.pais}
+                      </span>
+                    </button>
+                  ))
+                )}
+              </div>
+            ) : null}
           </div>
         </form>
 
-        {/* Botão para usar a localização atual do navegador. */}
         <button
           type="button"
           className="botao-localizacao"
           onClick={aoUsarLocalizacaoAtual}
           disabled={carregando}
         >
-          {carregando ? "Aguarde..." : "Usar minha localizacao atual"}
+          <span>{carregando ? "Aguarde..." : "Usar minha localizacao atual"}</span>
         </button>
 
-        {/* Mensagem de status da busca. */}
-        <p className={`mensagem ${dadosClima ? "mensagem-sucesso" : ""}`}>{mensagem}</p>
+        <p
+          className={`mensagem mensagem-${tipoMensagem}`}
+          role={tipoMensagem === "erro" ? "alert" : "status"}
+          aria-live={tipoMensagem === "erro" ? "assertive" : "polite"}
+        >
+          {mensagem}
+        </p>
 
-        {/* Só mostra o cartão quando já existem dados para exibir. */}
         {dadosClima ? <CartaoClima dados={dadosClima} /> : null}
       </section>
 
-      {/* Rodapé simples com assinatura do projeto. */}
       <footer className="rodape">
         <p>2026</p>
         <p>Desenvolvido por Kefilwe Lourenco</p>
