@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
+﻿import { useEffect, useState } from "react";
 import CartaoClima from "./componentes/CartaoClima";
+import ClimaNaPratica from "./componentes/ClimaNaPratica";
 import { IconeBusca } from "./componentes/Icones";
 import {
   buscarClimaPorCidade,
@@ -19,6 +20,7 @@ function App() {
   const [mostrarSugestoes, setMostrarSugestoes] = useState(false);
   const [indiceSugestaoAtiva, setIndiceSugestaoAtiva] = useState(-1);
   const [sugestaoSelecionada, setSugestaoSelecionada] = useState(null);
+  const [modoAcessivel, setModoAcessivel] = useState(false);
 
   function atualizarMensagem(texto, tipo = "info") {
     setMensagem(texto);
@@ -82,7 +84,7 @@ function App() {
 
     const cidadeFormatada = cidade.trim();
     if (!cidadeFormatada) {
-      atualizarMensagem("Erro: digite o nome de uma cidade.", "erro");
+      atualizarMensagem("Erro: digite o nome de uma cidade para buscar a previsao.", "erro");
       return;
     }
 
@@ -128,7 +130,10 @@ function App() {
       setDadosClima(null);
 
       if (erro.code === 1) {
-        atualizarMensagem("Erro: permissao de localizacao negada. Voce ainda pode buscar por cidade.", "erro");
+        atualizarMensagem(
+          "Erro: permissao de localizacao negada. Voce ainda pode buscar por cidade.",
+          "erro"
+        );
       } else if (erro.code === 2) {
         atualizarMensagem("Erro: nao foi possivel identificar sua localizacao atual.", "erro");
       } else if (erro.code === 3) {
@@ -187,17 +192,26 @@ function App() {
   }
 
   return (
-    <main className="aplicativo">
+    <main className={`aplicativo ${modoAcessivel ? "modo-acessivel" : ""}`}>
       <header className="hero">
         <p className="etiqueta">Clima em tempo real</p>
         <h1>App de Meteorologia</h1>
         <p className="subtitulo">
           Consulte o clima atual da sua cidade ou use sua localizacao.
         </p>
+        <button
+          type="button"
+          className="botao-modo-acessivel"
+          onClick={() => setModoAcessivel((valorAtual) => !valorAtual)}
+          aria-pressed={modoAcessivel}
+        >
+          {modoAcessivel ? "Desativar modo acessivel" : "Ativar modo acessivel"}
+        </button>
       </header>
 
       <section className="painel-principal" aria-busy={carregando} aria-labelledby="titulo-busca">
-        <h2 id="titulo-busca" className="sr-only">Buscar clima</h2>
+        <h2 id="titulo-busca" className="titulo-secao">Buscar clima</h2>
+
         <form className="formulario-busca" onSubmit={aoEnviarFormulario}>
           <label htmlFor="cidade" className="rotulo-campo">Nome da cidade</label>
           <p id="ajuda-cidade" className="texto-ajuda">
@@ -234,7 +248,7 @@ function App() {
                 onKeyDown={aoTeclarNoCampo}
               />
 
-              <button type="submit" disabled={carregando}>
+              <button type="submit" disabled={carregando} className="botao-busca">
                 <IconeBusca />
                 <span>{carregando ? "Carregando..." : "Buscar"}</span>
               </button>
@@ -292,13 +306,13 @@ function App() {
           {mensagem}
         </p>
 
-        {dadosClima ? <CartaoClima dados={dadosClima} /> : null}
+        {dadosClima ? (
+          <>
+            <CartaoClima dados={dadosClima} />
+            <ClimaNaPratica dados={dadosClima} />
+          </>
+        ) : null}
       </section>
-
-      <footer className="rodape">
-        <p>2026</p>
-        <p>Desenvolvido por Kefilwe Lourenco</p>
-      </footer>
     </main>
   );
 }

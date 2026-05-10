@@ -1,4 +1,5 @@
 import {
+  formatarChanceChuva,
   formatarData,
   formatarTemperatura,
   formatarUmidade,
@@ -39,18 +40,19 @@ function CartaoClima({ dados }) {
   return (
     <section className="cartao-clima" aria-labelledby="titulo-resultado-clima">
       <div className="cabecalho-clima">
-        <div>
-          <p className="legenda">Resultado atual</p>
-          <h2 id="titulo-resultado-clima">{dados.cidade}</h2>
+        <div className="bloco-cidade">
+          <p className="legenda">Clima agora</p>
+          <h3 id="titulo-resultado-clima" className="titulo-cidade">{dados.cidade}</h3>
           <p className="descricao-clima">
-            <IconeNuvem className="icone-inline" />
+            <IconeClimaAtual className="icone-inline" />
             <span>{dados.descricao}</span>
           </p>
           <p className="origem-clima">Origem: {dados.origem}</p>
         </div>
+
         <div className="temperatura-principal">
-          <IconeClimaAtual className="icone-temperatura-principal" />
           <p className="temperatura-destaque">{formatarTemperatura(dados.temperatura)}</p>
+          <p className="temperatura-apoio">Temperatura atual</p>
         </div>
       </div>
 
@@ -61,28 +63,42 @@ function CartaoClima({ dados }) {
             <span>Sensacao termica</span>
           </span>
           <strong>{formatarTemperatura(dados.sensacaoTermica)}</strong>
+          <p className="texto-apoio">Como o corpo sente a temperatura.</p>
         </article>
-        <article className="cartao-detalhe" aria-label={`Umidade de ${formatarUmidade(dados.umidade)}`}>
+
+        <article className="cartao-detalhe" aria-label={`Chance de chuva de ${formatarChanceChuva(dados.chanceChuva)}`}>
+          <span className="titulo-detalhe">
+            <IconeChuva className="icone-inline" />
+            <span>Chance de chuva</span>
+          </span>
+          <strong>{formatarChanceChuva(dados.chanceChuva)}</strong>
+          <p className="texto-apoio">Ajuda a planejar saidas e deslocamentos.</p>
+        </article>
+
+        <article className="cartao-detalhe" aria-label={`Umidade do ar de ${formatarUmidade(dados.umidade)}`}>
           <span className="titulo-detalhe">
             <IconeGota className="icone-inline" />
-            <span>Umidade</span>
+            <span>Umidade do ar</span>
           </span>
           <strong>{formatarUmidade(dados.umidade)}</strong>
+          <p className="texto-apoio">Umidade alta pode deixar o ar mais abafado.</p>
         </article>
-        <article className="cartao-detalhe" aria-label={`Velocidade do vento de ${formatarVelocidadeVento(dados.velocidadeVento)}`}>
+
+        <article className="cartao-detalhe" aria-label={`Vento de ${formatarVelocidadeVento(dados.velocidadeVento)}`}>
           <span className="titulo-detalhe">
             <IconeVento className="icone-inline" />
-            <span>Velocidade do vento</span>
+            <span>Vento</span>
           </span>
           <strong>{formatarVelocidadeVento(dados.velocidadeVento)}</strong>
+          <p className="texto-apoio">Mostra se o vento esta fraco ou mais presente.</p>
         </article>
       </div>
 
       <section className="secao-previsao" aria-labelledby="titulo-previsao">
-        <h3 id="titulo-previsao">
+        <h4 id="titulo-previsao" className="titulo-secao-interna">
           <IconeCalendario className="icone-inline" />
           <span>Previsao dos proximos dias</span>
-        </h3>
+        </h4>
         <div className="grade-previsao">
           {dados.previsao.map((dia) => (
             <article
@@ -92,8 +108,9 @@ function CartaoClima({ dados }) {
             >
               <strong>{formatarData(dia.data)}</strong>
               <p>{dia.descricao}</p>
-              <p>
-                {formatarTemperatura(dia.maxima)} / {formatarTemperatura(dia.minima)}
+              <p>{formatarTemperatura(dia.maxima)} / {formatarTemperatura(dia.minima)}</p>
+              <p className="texto-previsao-extra">
+                Chance de chuva: {formatarChanceChuva(dia.chanceChuva)}
               </p>
             </article>
           ))}

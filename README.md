@@ -2,7 +2,7 @@
 
 Aplicativo web de previsao do tempo desenvolvido com **React** e **Vite**.
 
-O projeto usa a **API Open-Meteo** para consultar o clima atual e a previsao dos proximos dias. O usuario pode pesquisar uma cidade pelo nome ou usar a localizacao atual do navegador.
+O projeto usa a **API Open-Meteo** para consultar o clima atual e a previsao dos proximos dias. A pessoa usuaria pode pesquisar uma cidade pelo nome, escolher uma sugestao de cidade ou usar a localizacao atual do navegador.
 
 ## Tecnologias utilizadas
 
@@ -25,14 +25,18 @@ https://github.com/user-attachments/assets/ca3fb47e-f630-4c01-a768-020679fcab44
 
 ## Funcionalidades
 
-- Buscar clima pelo nome da cidade;
-- Usar a localizacao atual do usuario;
-- Exibir temperatura atual;
-- Exibir sensacao termica;
-- Exibir umidade;
-- Exibir velocidade do vento;
-- Mostrar previsao dos proximos dias;
-- Tratar erros, como cidade invalida ou falha na API.
+- buscar clima pelo nome da cidade;
+- receber sugestoes de cidades durante a digitacao;
+- usar a localizacao atual do navegador;
+- exibir temperatura atual;
+- exibir clima agora em linguagem simples;
+- exibir sensacao termica;
+- exibir chance de chuva;
+- exibir umidade do ar;
+- exibir vento;
+- mostrar previsao dos proximos dias;
+- ativar modo acessivel com fonte maior e mais espacamento;
+- tratar erros, como cidade invalida ou falha na API.
 
 ## Como executar o projeto
 
@@ -72,13 +76,21 @@ http://localhost:5173/
 npm run build
 ```
 
+## Executar testes
+
+```bash
+npm run test
+```
+
 ## Documentacao complementar
 
+- [Acessibilidade](./docs/acessibilidade.md)
 - [Casos de teste](./docs/casos-de-teste.md)
+- [Implementacao da secao Clima na pratica](./docs/implementacao-clima-na-pratica.md)
 - [Implementacao da melhoria de cache](./docs/implementacao-cache.md)
 - [Testes da melhoria de cache](./docs/testes-cache.md)
 - [Prompt TRACI e analise do projeto](./docs/traci-e-analise.md)
 
 ## Relacao com a Generation Brasil
 
-Este projeto foi desenvolvido como pratica de front-end na **Generation Brasil**, aplicando consumo de API, componentizacao, responsividade, tratamento de erros, versionamento, testes documentados, melhoria de cache e deploy com GitHub Pages.
+Este projeto foi desenvolvido como pratica de front-end na **Generation Brasil**, aplicando consumo de API, componentizacao, responsividade, tratamento de erros, testes automatizados, melhoria de cache, acessibilidade e deploy com GitHub Pages.

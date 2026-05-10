@@ -8,10 +8,10 @@ Os testes automatizados foram criados no arquivo `src/servicos/apiClima.test.js`
 
 ### Resultado atual
 
-- 12 testes aprovados;
+- 14 testes aprovados;
 - nenhum acesso real a API durante os testes;
 - `fetch` totalmente mockado;
-- foco na validacao do fluxo da Geocoding API e da Forecast API.
+- foco na validacao do fluxo da Geocoding API, da Forecast API e das sugestoes de cidades.
 
 ### O que os testes validam
 
@@ -23,9 +23,15 @@ Os testes automatizados foram criados no arquivo `src/servicos/apiClima.test.js`
 - deve lancar erro quando a entrada estiver vazia;
 - deve lancar erro em falha de rede.
 
+#### buscarSugestoesCidade
+
+- deve retornar uma lista curta de sugestoes quando a API responde com sucesso;
+- deve retornar lista vazia quando o usuario digita menos de duas letras.
+
 #### buscarPrevisao
 
 - deve montar a requisicao usando latitude e longitude;
+- deve incluir `precipitation_probability_max` na consulta;
 - deve retornar dados quando a Forecast API responde corretamente;
 - deve lancar erro quando a resposta nao tiver `current`;
 - deve lancar erro quando a resposta nao tiver `daily`;
@@ -43,34 +49,26 @@ npm run test
 
 ### Buscar clima com cidade valida
 
-**Cenario:** o usuario digita uma cidade existente, como `Sao Paulo`.
+**Cenario:** a pessoa usuaria digita uma cidade existente, como `Sao Paulo`.
 
 **Comportamento esperado:**
 - o app chama a Geocoding API;
 - obtem latitude e longitude;
 - consulta a Forecast API com essas coordenadas;
-- exibe cidade, temperatura, sensacao termica, umidade, vento e previsao dos proximos dias.
+- exibe cidade, temperatura, sensacao termica, chance de chuva, umidade do ar, vento e previsao dos proximos dias.
 
-### Buscar clima com cidade valida contendo espaco
+### Buscar clima com sugestao de cidade
 
-**Cenario:** o usuario digita uma cidade com espaco no nome.
-
-**Comportamento esperado:**
-- a entrada e tratada corretamente;
-- a cidade e encontrada;
-- os dados climaticos sao exibidos normalmente.
-
-### Buscar clima com caracteres acentuados
-
-**Cenario:** o usuario digita uma cidade com acentos.
+**Cenario:** a pessoa usuaria digita duas letras, escolhe uma sugestao e confirma a busca.
 
 **Comportamento esperado:**
-- a cidade e enviada corretamente para a Geocoding API;
-- a busca funciona sem quebrar a interface.
+- o app mostra sugestoes;
+- a sugestao escolhida usa latitude e longitude diretamente;
+- o resultado aparece sem exigir redigitacao.
 
 ### Buscar clima usando localizacao atual
 
-**Cenario:** o usuario permite acesso a localizacao do navegador.
+**Cenario:** a pessoa usuaria permite acesso a localizacao do navegador.
 
 **Comportamento esperado:**
 - o navegador retorna latitude e longitude;
@@ -83,34 +81,25 @@ npm run test
 
 **Comportamento esperado:**
 - todos os cards da previsao sao renderizados corretamente;
-- maximas, minimas e descricao do clima aparecem sem erro.
+- maximas, minimas, descricao e chance de chuva aparecem sem erro.
 
 ## 2. Casos de erro de entrada
 
 ### Campo vazio
 
-**Cenario:** o usuario tenta buscar sem digitar nada.
+**Cenario:** a pessoa usuaria tenta buscar sem digitar nada.
 
 **Comportamento esperado:**
 - o app nao chama nenhuma API;
-- exibe a mensagem `Digite o nome de uma cidade.`
-
-### Campo com apenas espacos
-
-**Cenario:** o usuario digita apenas espacos.
-
-**Comportamento esperado:**
-- o valor e tratado como vazio;
-- a busca nao e executada;
-- a mensagem de erro e exibida.
+- exibe a mensagem `Digite o nome de uma cidade para buscar a previsao.`
 
 ### Cidade invalida
 
-**Cenario:** o usuario digita uma cidade inexistente.
+**Cenario:** a pessoa usuaria digita uma cidade inexistente.
 
 **Comportamento esperado:**
 - a Geocoding API nao retorna resultados;
-- o app exibe `Cidade nao encontrada. Tente outro nome.`
+- o app exibe `Cidade nao encontrada. Verifique o nome e tente novamente.`
 
 ## 3. Casos de erro da API
 
@@ -144,60 +133,33 @@ npm run test
 - o app nao tenta acessar propriedades inexistentes;
 - exibe `A API retornou uma resposta incompleta. Tente novamente.`
 
-### Resposta invalida em JSON
-
-**Cenario:** a API retorna algo que nao pode ser interpretado como JSON.
-
-**Comportamento esperado:**
-- o app informa que nao foi possivel interpretar a resposta da API.
-
 ## 4. Casos extremos
-
-### Cidade muito longa
-
-**Cenario:** o usuario digita um nome extremamente grande.
-
-**Comportamento esperado:**
-- o app continua estavel;
-- retorna resultado valido ou mensagem de cidade nao encontrada.
-
-### Cidade com numeros e simbolos
-
-**Cenario:** o usuario digita caracteres incomuns.
-
-**Comportamento esperado:**
-- o app nao quebra;
-- exibe erro amigavel se a cidade nao existir.
 
 ### Permissao de localizacao negada
 
-**Cenario:** o navegador bloqueia ou o usuario recusa a geolocalizacao.
+**Cenario:** o navegador bloqueia ou a pessoa usuaria recusa a geolocalizacao.
 
 **Comportamento esperado:**
 - o app informa que a permissao foi negada;
-- o usuario ainda pode buscar por cidade manualmente.
+- a busca por cidade continua disponivel.
 
-### Navegador sem suporte a geolocalizacao
+### Zoom em 200%
 
-**Cenario:** o navegador nao suporta `navigator.geolocation`.
-
-**Comportamento esperado:**
-- o app informa que o navegador nao suporta geolocalizacao.
-
-### Timeout na localizacao
-
-**Cenario:** a localizacao demora para responder.
+**Cenario:** a pagina e ampliada no navegador.
 
 **Comportamento esperado:**
-- o app exibe mensagem informando que a localizacao demorou para responder.
+- o layout continua legivel;
+- cards nao se sobrepoem;
+- textos nao sao cortados.
 
-### Nova busca apos erro anterior
+### Modo acessivel ativado
 
-**Cenario:** o usuario faz uma nova busca depois de uma falha.
+**Cenario:** a pessoa ativa o modo acessivel.
 
 **Comportamento esperado:**
-- o app continua funcional;
-- a nova busca substitui o estado anterior sem quebrar a interface.
+- a tipografia aumenta;
+- o espacamento entre blocos cresce;
+- botoes e cards ficam mais confortaveis para leitura e clique.
 
 ## 5. Regras de comportamento esperado
 
@@ -205,6 +167,6 @@ npm run test
 - A Geocoding API deve ser chamada antes da Forecast API quando a busca for por cidade.
 - O app nunca deve buscar clima diretamente pelo nome da cidade na Forecast API.
 - O app deve validar a entrada antes de chamar a API.
-- O app deve exibir mensagens de erro claras para o usuario.
+- O app deve exibir mensagens de erro claras para a pessoa usuaria.
 - O app deve validar a estrutura da resposta antes de renderizar os dados.
-- O app deve informar a origem da consulta: `busca por cidade` ou `localizacao atual`.
+- O app deve informar a origem da consulta: `busca por cidade`, `sugestao de cidade` ou `localizacao atual`.
