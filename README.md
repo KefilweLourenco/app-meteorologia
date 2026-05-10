@@ -123,7 +123,15 @@ npm run build
 
 **Tarefa:** Criar uma função que receba o nome de uma cidade, busque latitude e longitude na API de Geocodificação da Open-Meteo e depois consulte a previsão do tempo usando essas coordenadas.
 
+<<<<<<< HEAD
 **Papel:** Usar JavaScript moderno, React, Fetch API e boas práticas de organização de código.
+=======
+## Documentacao complementar
+
+- [Casos de teste](./docs/casos-de-teste.md)
+
+## Relacao com a Generation Brasil
+>>>>>>> 1676707 (docs: adiciona casos de teste do app)
 
 **Público:** O código deve ser amigável para iniciantes, com nomes claros, funções bem separadas e mensagens de erro fáceis de entender.
 
@@ -170,6 +178,7 @@ Fluxo validado:
 
 Também foi testado o comportamento com cidade inválida, exibindo mensagem de erro para o usuário.
 
+<<<<<<< HEAD
 ## Relação com a Generation Brasil
 
 Este projeto foi desenvolvido como prática de front-end na **Generation Brasil**.
@@ -187,3 +196,6 @@ Ele reúne conceitos de:
 ## Publicação
 
 O projeto está publicado no **GitHub Pages**.
+=======
+O app deve exibir os dados climaticos sem erro e sem buscar clima diretamente pelo nome da cidade.
+>>>>>>> 1676707 (docs: adiciona casos de teste do app)
