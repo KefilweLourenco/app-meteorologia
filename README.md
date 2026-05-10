@@ -72,12 +72,6 @@ http://localhost:5173/
 npm run build
 ```
 
-## Rodar testes automatizados
-
-```bash
-npm run test
-```
-
 ## Documentacao complementar
 
 - [Casos de teste](./docs/casos-de-teste.md)
@@ -87,4 +81,4 @@ npm run test
 
 ## Relacao com a Generation Brasil
 
-Este projeto foi desenvolvido como pratica de front-end na **Generation Brasil**, aplicando consumo de API, componentizacao, responsividade, tratamento de erros, versionamento, testes automatizados e deploy com GitHub Pages.
+Este projeto foi desenvolvido como pratica de front-end na **Generation Brasil**, aplicando consumo de API, componentizacao, responsividade, tratamento de erros, versionamento, testes documentados, melhoria de cache e deploy com GitHub Pages.
