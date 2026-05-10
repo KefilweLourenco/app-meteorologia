@@ -1,3 +1,4 @@
+// Tabela que transforma os códigos numéricos da Open-Meteo em textos fáceis de entender.
 const codigosClima = {
   0: "Ceu limpo",
   1: "Predominantemente limpo",
@@ -17,8 +18,11 @@ const codigosClima = {
   95: "Trovoadas"
 };
 
+// Tempo de validade do cache: 10 minutos.
 const DURACAO_CACHE_EM_MS = 10 * 60 * 1000;
 
+// Tenta acessar o sessionStorage do navegador.
+// Se o ambiente não tiver navegador, devolve null.
 function obterArmazenamentoDeSessao() {
   if (typeof window === "undefined" || !window.sessionStorage) {
     return null;
@@ -27,6 +31,7 @@ function obterArmazenamentoDeSessao() {
   return window.sessionStorage;
 }
 
+// Procura um item salvo no cache e só devolve se ele ainda estiver válido.
 function lerCache(chave) {
   const armazenamento = obterArmazenamentoDeSessao();
 
@@ -44,6 +49,7 @@ function lerCache(chave) {
     const item = JSON.parse(valor);
     const expirou = Date.now() - item.timestamp > DURACAO_CACHE_EM_MS;
 
+    // Se o tempo de cache já passou, remove o item antigo.
     if (expirou) {
       armazenamento.removeItem(chave);
       return null;
@@ -55,6 +61,7 @@ function lerCache(chave) {
   }
 }
 
+// Salva um valor no cache junto com o horário em que ele foi salvo.
 function salvarCache(chave, dados) {
   const armazenamento = obterArmazenamentoDeSessao();
 
@@ -75,6 +82,8 @@ function salvarCache(chave, dados) {
   }
 }
 
+// Converte a resposta da API para JSON.
+// Se a resposta vier quebrada, o app mostra uma mensagem de erro.
 async function converterRespostaEmJson(resposta) {
   try {
     return await resposta.json();
@@ -83,15 +92,19 @@ async function converterRespostaEmJson(resposta) {
   }
 }
 
+// Busca a cidade digitada na Geocoding API para descobrir latitude e longitude.
 export async function buscarCidade(cidade) {
+  // Primeiro garante que o usuário digitou algo válido.
   if (!cidade || !cidade.trim()) {
     throw new Error("Digite o nome de uma cidade.");
   }
 
+  // Normaliza o texto para montar a chave do cache.
   const cidadeNormalizada = cidade.trim();
   const chaveCacheCidade = `cidade:${cidadeNormalizada.toLowerCase()}`;
   const cidadeEmCache = lerCache(chaveCacheCidade);
 
+  // Se a cidade já estiver no cache, usa esse resultado sem chamar a API.
   if (cidadeEmCache) {
     return cidadeEmCache;
   }
@@ -99,6 +112,7 @@ export async function buscarCidade(cidade) {
   let resposta;
 
   try {
+    // Monta os parâmetros da busca de forma mais segura.
     const parametros = new URLSearchParams({
       name: cidadeNormalizada,
       count: "1",
@@ -114,20 +128,25 @@ export async function buscarCidade(cidade) {
 
   const dados = await converterRespostaEmJson(resposta);
 
+  // Trata erro retornado pela API ou resposta HTTP com falha.
   if (!resposta.ok || dados.error) {
     throw new Error(dados.reason || "Nao foi possivel buscar a cidade agora.");
   }
 
+  // Se não encontrar resultado, o usuário recebe uma mensagem clara.
   if (!dados.results || dados.results.length === 0) {
     throw new Error("Cidade nao encontrada. Tente outro nome.");
   }
 
+  // Salva a primeira cidade encontrada no cache.
   const cidadeEncontrada = dados.results[0];
   salvarCache(chaveCacheCidade, cidadeEncontrada);
 
   return cidadeEncontrada;
 }
 
+// Busca o nome da localização atual a partir da latitude e longitude.
+// Isso é usado quando o usuário escolhe usar a localização do navegador.
 async function buscarNomeDaLocalizacao(latitude, longitude) {
   let resposta;
 
@@ -161,6 +180,7 @@ async function buscarNomeDaLocalizacao(latitude, longitude) {
   const estado = dados.address.state;
   const pais = dados.address.country;
 
+  // Se a API não conseguir descobrir o nome da cidade, usa um texto com coordenadas.
   if (!cidade) {
     return `Sua localizacao atual (${latitude.toFixed(2)}, ${longitude.toFixed(2)})`;
   }
@@ -168,10 +188,12 @@ async function buscarNomeDaLocalizacao(latitude, longitude) {
   return `${cidade}${estado ? `, ${estado}` : ""}${pais ? `, ${pais}` : ""}`;
 }
 
+// Traduz o código numérico do clima para um texto amigável.
 function descreverCodigoClima(codigo) {
   return codigosClima[codigo] || "Sem descricao";
 }
 
+// Monta a previsão diária em formato fácil de usar dentro do React.
 function montarPrevisaoDiaria(dadosDaily) {
   if (
     !dadosDaily.time ||
@@ -190,6 +212,7 @@ function montarPrevisaoDiaria(dadosDaily) {
   }));
 }
 
+// Junta os dados da cidade com os dados da previsão em um único objeto.
 function montarRespostaClima(local, dados, origem = "cidade atual") {
   if (!dados.current || !dados.daily) {
     throw new Error("A API retornou uma resposta incompleta. Tente novamente.");
@@ -209,10 +232,14 @@ function montarRespostaClima(local, dados, origem = "cidade atual") {
   };
 }
 
+// Busca a previsão usando latitude e longitude.
+// Essa função nunca busca clima diretamente pelo nome da cidade.
 export async function buscarPrevisao(latitude, longitude) {
+  // Usa uma chave própria para armazenar a previsão no cache.
   const chaveCachePrevisao = `previsao:${latitude},${longitude}`;
   const previsaoEmCache = lerCache(chaveCachePrevisao);
 
+  // Se a previsão já estiver salva, reutiliza o resultado.
   if (previsaoEmCache) {
     return previsaoEmCache;
   }
@@ -220,6 +247,7 @@ export async function buscarPrevisao(latitude, longitude) {
   let resposta;
 
   try {
+    // Monta a URL da Forecast API usando URLSearchParams para evitar erros.
     const parametros = new URLSearchParams({
       latitude: String(latitude),
       longitude: String(longitude),
@@ -238,31 +266,37 @@ export async function buscarPrevisao(latitude, longitude) {
 
   const dados = await converterRespostaEmJson(resposta);
 
+  // Trata erro HTTP e erro informado pela própria API.
   if (!resposta.ok || dados.error) {
     throw new Error(dados.reason || "Nao foi possivel buscar o clima agora.");
   }
 
+  // Garante que os blocos principais da resposta existam antes de usar.
   if (!dados.current || !dados.daily || !Array.isArray(dados.daily.time)) {
     throw new Error("A API retornou uma resposta incompleta. Tente novamente.");
   }
 
+  // Salva a previsão no cache para acelerar consultas repetidas.
   salvarCache(chaveCachePrevisao, dados);
 
   return dados;
 }
 
+// Fluxo completo quando a busca é feita pelo nome da cidade.
 export async function buscarClimaPorCidade(cidade) {
   const local = await buscarCidade(cidade);
   const dados = await buscarPrevisao(local.latitude, local.longitude);
   return montarRespostaClima(local, dados, "busca por cidade");
 }
 
+// Fluxo completo quando a busca é feita usando a localização atual.
 export async function buscarClimaPorCoordenadas(latitude, longitude) {
   const [dados, nomeDaLocalizacao] = await Promise.all([
     buscarPrevisao(latitude, longitude),
     buscarNomeDaLocalizacao(latitude, longitude)
   ]);
 
+  // Devolve o mesmo formato usado na busca por cidade para a interface ficar simples.
   return {
     cidade: nomeDaLocalizacao,
     origem: "localizacao atual",

@@ -1,6 +1,9 @@
+// Importa as funções do Vitest usadas para organizar e validar os testes.
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+// Importa as funções do serviço que queremos testar.
 import { buscarCidade, buscarPrevisao } from "./apiClima";
 
+// Cria uma resposta falsa parecida com a que o fetch devolveria.
 function criarRespostaJson(dados, ok = true) {
   return {
     ok,
@@ -8,15 +11,19 @@ function criarRespostaJson(dados, ok = true) {
   };
 }
 
+// Grupo principal dos testes do arquivo apiClima.
 describe("apiClima", () => {
   beforeEach(() => {
+    // Antes de cada teste, cria um fetch falso para evitar chamadas reais.
     global.fetch = vi.fn();
   });
 
   afterEach(() => {
+    // Depois de cada teste, limpa os mocks para não misturar resultados.
     vi.restoreAllMocks();
   });
 
+  // Testes da função que busca latitude e longitude da cidade.
   describe("buscarCidade", () => {
     it("deve retornar cidade, latitude e longitude quando a Geocoding API responde com sucesso", async () => {
       const respostaApi = {
@@ -35,9 +42,11 @@ describe("apiClima", () => {
 
       const resultado = await buscarCidade("Sao Paulo");
 
+      // Verifica se a API foi chamada uma vez e com a URL correta.
       expect(fetch).toHaveBeenCalledTimes(1);
       expect(fetch.mock.calls[0][0]).toContain("https://geocoding-api.open-meteo.com/v1/search?");
       expect(fetch.mock.calls[0][0]).toContain("name=Sao+Paulo");
+      // Confirma que o retorno foi exatamente o primeiro resultado da API.
       expect(resultado).toEqual(respostaApi.results[0]);
     });
 
@@ -59,6 +68,7 @@ describe("apiClima", () => {
 
     it("deve lancar erro quando a entrada estiver vazia", async () => {
       await expect(buscarCidade("   ")).rejects.toThrow("Digite o nome de uma cidade.");
+      // Nesse caso a API nem deve ser chamada.
       expect(fetch).not.toHaveBeenCalled();
     });
 
@@ -71,6 +81,7 @@ describe("apiClima", () => {
     });
   });
 
+  // Testes da função que busca previsão usando latitude e longitude.
   describe("buscarPrevisao", () => {
     it("deve montar a requisicao usando latitude e longitude", async () => {
       fetch.mockResolvedValue(
@@ -93,6 +104,7 @@ describe("apiClima", () => {
 
       await buscarPrevisao(-23.55, -46.63);
 
+      // Confirma se a URL final foi montada com os parâmetros principais.
       const url = fetch.mock.calls[0][0];
       expect(url).toContain("https://api.open-meteo.com/v1/forecast?");
       expect(url).toContain("latitude=-23.55");
@@ -122,6 +134,7 @@ describe("apiClima", () => {
 
       const resultado = await buscarPrevisao(-23.55, -46.63);
 
+      // Garante que a função devolve os dados corretamente quando a API responde bem.
       expect(resultado).toEqual(respostaApi);
     });
 

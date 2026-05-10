@@ -1,3 +1,4 @@
+/* Cores principais usadas em todo o visual do projeto. */
 :root {
   --cor-fundo-topo: #d3f0ff;
   --cor-fundo-meio: #75cdf7;
@@ -14,10 +15,12 @@
   --borda-suave: rgba(13, 101, 130, 0.12);
 }
 
+/* Faz com que padding e borda não aumentem o tamanho final dos elementos. */
 * {
   box-sizing: border-box;
 }
 
+/* Define o visual base da página inteira. */
 body {
   margin: 0;
   min-height: 100vh;
@@ -28,22 +31,26 @@ body {
     linear-gradient(180deg, var(--cor-fundo-topo) 0%, var(--cor-fundo-meio) 42%, var(--cor-fundo-base) 100%);
 }
 
+/* Mantém botões e campos com a mesma fonte do restante da tela. */
 button,
 input {
   font: inherit;
 }
 
+/* Área principal que limita a largura do conteúdo na tela. */
 .aplicativo {
   width: min(980px, calc(100% - 2rem));
   margin: 0 auto;
   padding: 3rem 0 2.5rem;
 }
 
+/* Parte superior de apresentação do projeto. */
 .hero {
   text-align: center;
   margin-bottom: 2rem;
 }
 
+/* Pequeno texto acima do título principal. */
 .etiqueta {
   margin: 0;
   text-transform: uppercase;
@@ -53,12 +60,14 @@ input {
   color: rgba(18, 50, 59, 0.72);
 }
 
+/* Título principal do app. */
 .hero h1 {
   margin: 0.5rem 0 0.75rem;
   font-size: clamp(2.2rem, 4vw, 3.8rem);
   line-height: 0.95;
 }
 
+/* Texto explicando o objetivo da aplicação. */
 .subtitulo {
   max-width: 680px;
   margin: 0 auto;
@@ -67,6 +76,7 @@ input {
   color: var(--cor-texto-suave);
 }
 
+/* Cartões brancos usados no formulário e no resultado do clima. */
 .painel-principal,
 .cartao-clima {
   background: var(--cor-superficie);
@@ -76,24 +86,29 @@ input {
   backdrop-filter: blur(14px);
 }
 
+/* Espaçamento interno do painel principal. */
 .painel-principal {
   padding: 1.5rem;
 }
 
+/* Organiza o formulário em blocos com espaço entre eles. */
 .formulario-busca {
   display: grid;
   gap: 0.75rem;
 }
 
+/* Deixa o rótulo do campo mais destacado. */
 .rotulo-campo {
   font-weight: 700;
 }
 
+/* Linha que junta o input e o botão de busca. */
 .linha-busca {
   display: flex;
   gap: 0.75rem;
 }
 
+/* Campo onde o usuário digita o nome da cidade. */
 .linha-busca input {
   flex: 1;
   min-width: 0;
@@ -103,6 +118,7 @@ input {
   background: var(--cor-superficie-forte);
 }
 
+/* Estilo base dos botões do projeto. */
 .linha-busca button,
 .botao-localizacao {
   border: 0;
@@ -114,37 +130,44 @@ input {
   cursor: pointer;
 }
 
+/* Define largura mínima do botão de buscar. */
 .linha-busca button {
   min-width: 130px;
 }
 
+/* Botão que usa a localização atual do navegador. */
 .botao-localizacao {
   margin-top: 1rem;
   min-height: 3.25rem;
   width: 100%;
 }
 
+/* Visual do botão quando ele fica desabilitado. */
 .linha-busca button:disabled,
 .botao-localizacao:disabled {
   cursor: wait;
   opacity: 0.72;
 }
 
+/* Mensagem usada para informar status, sucesso ou erro. */
 .mensagem {
   min-height: 1.5rem;
   margin: 1rem 0 0;
   color: var(--cor-texto-suave);
 }
 
+/* Cor especial para mensagens positivas. */
 .mensagem-sucesso {
   color: var(--cor-sucesso);
 }
 
+/* Cartão onde os dados do clima aparecem. */
 .cartao-clima {
   margin-top: 1.5rem;
   padding: 1.5rem;
 }
 
+/* Cabeçalho do resultado com cidade e temperatura. */
 .cabecalho-clima {
   display: flex;
   justify-content: space-between;
@@ -152,6 +175,7 @@ input {
   align-items: flex-start;
 }
 
+/* Define uma cor mais suave para textos secundários. */
 .legenda,
 .descricao-clima,
 .origem-clima,
@@ -160,33 +184,39 @@ input {
   color: var(--cor-texto-suave);
 }
 
+/* Nome da cidade dentro do resultado. */
 .cabecalho-clima h2 {
   margin: 0.25rem 0 0;
   font-size: 1.7rem;
 }
 
+/* Espaçamento dos textos secundários do resultado. */
 .descricao-clima,
 .origem-clima {
   margin: 0.4rem 0 0;
 }
 
+/* Temperatura principal mostrada em destaque. */
 .temperatura-destaque {
   margin: 0;
   font-size: clamp(2.8rem, 5vw, 4.4rem);
   font-weight: 800;
 }
 
+/* Grades usadas para detalhes e previsão. */
 .grade-detalhes,
 .grade-previsao {
   display: grid;
   gap: 1rem;
 }
 
+/* Organiza os detalhes atuais em colunas no desktop. */
 .grade-detalhes {
   grid-template-columns: repeat(3, minmax(0, 1fr));
   margin: 1.5rem 0;
 }
 
+/* Cartões menores usados em detalhes e previsão. */
 .cartao-detalhe,
 .cartao-previsao {
   background: rgba(255, 255, 255, 0.74);
@@ -195,29 +225,35 @@ input {
   padding: 1rem;
 }
 
+/* Texto acima do valor em cada detalhe. */
 .cartao-detalhe span {
   display: block;
   margin-bottom: 0.45rem;
 }
 
+/* Título da seção de previsão. */
 .secao-previsao h3 {
   margin: 0 0 1rem;
 }
 
+/* Distribui os cards da previsão conforme o espaço disponível. */
 .grade-previsao {
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
 }
 
+/* Ajusta espaçamento interno dos textos da previsão. */
 .cartao-previsao strong,
 .cartao-previsao p {
   display: block;
   margin: 0;
 }
 
+/* Separa melhor as linhas dos textos dentro da previsão. */
 .cartao-previsao p + p {
   margin-top: 0.5rem;
 }
 
+/* Rodapé simples com assinatura do projeto. */
 .rodape {
   margin-top: 1.5rem;
   text-align: center;
@@ -225,10 +261,12 @@ input {
   color: var(--cor-rodape);
 }
 
+/* Pequeno ajuste de margem entre as linhas do rodapé. */
 .rodape p {
   margin: 0.2rem 0;
 }
 
+/* Ajustes para telas menores, como tablets e celulares. */
 @media (max-width: 700px) {
   .aplicativo {
     width: min(100%, calc(100% - 1rem));
@@ -308,6 +346,7 @@ input {
   }
 }
 
+/* Ajustes extras para telas bem pequenas. */
 @media (max-width: 420px) {
   .aplicativo {
     width: min(100%, calc(100% - 0.75rem));
