@@ -15,7 +15,7 @@ O projeto usa a **API Open-Meteo** para consultar o clima atual e a previsao dos
 ![Vitest](https://img.shields.io/badge/Vitest-1F2937?style=for-the-badge&logo=vitest&logoColor=6E9F18)
 ![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-121013?style=for-the-badge&logo=github&logoColor=white)
 
-## Acesse o projeto
+## Acesse o site
 
 [Ver aplicacao publicada](https://kefilwelourenco.github.io/app-meteorologia/)
 
