@@ -21,11 +21,7 @@ O projeto usa a **API Open-Meteo** para consultar o clima atual e a previsao dos
 
 ## Demonstracao
 
-<<<<<<< HEAD
 https://github.com/user-attachments/assets/ac959305-a89f-42de-ab6e-d37802cbabcd
-=======
-> O video anterior foi gravado antes de uma refatoracao completa de interface e acessibilidade — ficou desatualizado e foi removido daqui. Vale gravar um novo mostrando o painel de preferencias, o tema escuro e a busca por voz.
->>>>>>> 97e9554 (refactor: reconstroi app com foco em acessibilidade, design system e responsividade real)
 
 ## Funcionalidades
 
