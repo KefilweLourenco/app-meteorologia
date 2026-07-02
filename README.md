@@ -19,10 +19,6 @@ O projeto usa a **API Open-Meteo** para consultar o clima atual e a previsao dos
 
 [Ver aplicacao publicada](https://kefilwelourenco.github.io/app-meteorologia/)
 
-## Demonstracao
-
-https://github.com/user-attachments/assets/ac959305-a89f-42de-ab6e-d37802cbabcd
-
 ## Funcionalidades
 
 - buscar clima pelo nome da cidade;
