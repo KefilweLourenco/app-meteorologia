@@ -13,7 +13,7 @@ A secao `Clima na pratica` transforma dados meteorologicos em decisoes curtas pa
 - Pele ressecada
 - Mosquitos
 - Vitamina D
-- Mobilidade em SP
+- Mobilidade urbana (usa o nome da cidade pesquisada, ex.: "Mobilidade em Fortaleza")
 
 ## Dados usados hoje
 
@@ -51,10 +51,11 @@ Esses dados alimentam interpretacoes do cotidiano. Por isso, a confiabilidade ex
 - se houver UV no futuro, a logica pode ficar mais precisa
 - nao faz orientacao medica e nao indica tempo exato de exposicao
 
-### Mobilidade em SP
+### Mobilidade urbana
 - considera chuva, vento, frio e calor
 - transforma o clima em orientacao para deslocamentos urbanos
-- prioriza recomendacoes realistas para Sao Paulo e regiao metropolitana
+- titulo e texto usam o nome da cidade pesquisada (extraido de `dados.cidade`), entao o card sempre fala da cidade certa, nao de uma cidade fixa
+- importante: e uma estimativa baseada em clima, nao em dados reais de transito (o app nao integra nenhuma API de transito)
 
 ## O que ficou preparado para o futuro
 

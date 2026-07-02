@@ -1,6 +1,9 @@
+import { useAcessibilidade } from "../contexto/AcessibilidadeContext";
+import { useSpeechSynthesis } from "../hooks/useSpeechSynthesis";
 import {
   formatarChanceChuva,
   formatarData,
+  formatarResumoClima,
   formatarTemperatura,
   formatarUmidade,
   formatarVelocidadeVento
@@ -13,10 +16,11 @@ import {
   IconeSol,
   IconeTermometro,
   IconeTrovoada,
-  IconeVento
+  IconeVento,
+  IconeVoz
 } from "./Icones";
 
-function obterIconeDoClimaAtual(descricao) {
+function obterIconeDoClima(descricao) {
   const descricaoNormalizada = descricao.toLowerCase();
 
   if (descricaoNormalizada.includes("trovo")) {
@@ -35,7 +39,19 @@ function obterIconeDoClimaAtual(descricao) {
 }
 
 function CartaoClima({ dados }) {
-  const IconeClimaAtual = obterIconeDoClimaAtual(dados.descricao);
+  const { preferencias } = useAcessibilidade();
+  const { suportado: leituraSuportada, falando, falar, parar } = useSpeechSynthesis();
+  const IconeClimaAtual = obterIconeDoClima(dados.descricao);
+  const resumoSimples = formatarResumoClima(dados);
+
+  function aoClicarOuvir() {
+    if (falando) {
+      parar();
+      return;
+    }
+
+    falar(resumoSimples);
+  }
 
   return (
     <section className="cartao-clima" aria-labelledby="titulo-resultado-clima">
@@ -56,41 +72,40 @@ function CartaoClima({ dados }) {
         </div>
       </div>
 
+      {preferencias.linguagemSimples ? (
+        <p className="resumo-simples">{resumoSimples}</p>
+      ) : null}
+
+      {preferencias.leituraEmVozAlta && leituraSuportada ? (
+        <button type="button" className="botao-ouvir-previsao" onClick={aoClicarOuvir}>
+          <IconeVoz className="icone-inline" />
+          <span>{falando ? "Parar leitura" : "Ouvir previsao"}</span>
+        </button>
+      ) : null}
+
       <div className="grade-detalhes">
-        <article className="cartao-detalhe" aria-label={`Sensacao termica de ${formatarTemperatura(dados.sensacaoTermica)}`}>
-          <span className="titulo-detalhe">
-            <IconeTermometro className="icone-inline" />
-            <span>Sensacao termica</span>
-          </span>
+        <article className="chip-clima" aria-label={`Sensacao termica de ${formatarTemperatura(dados.sensacaoTermica)}`}>
+          <IconeTermometro className="icone-chip" aria-hidden="true" />
           <strong>{formatarTemperatura(dados.sensacaoTermica)}</strong>
-          <p className="texto-apoio">Como o corpo sente a temperatura.</p>
+          <span>Sensacao</span>
         </article>
 
-        <article className="cartao-detalhe" aria-label={`Chance de chuva de ${formatarChanceChuva(dados.chanceChuva)}`}>
-          <span className="titulo-detalhe">
-            <IconeChuva className="icone-inline" />
-            <span>Chance de chuva</span>
-          </span>
+        <article className="chip-clima" aria-label={`Chance de chuva de ${formatarChanceChuva(dados.chanceChuva)}`}>
+          <IconeChuva className="icone-chip" aria-hidden="true" />
           <strong>{formatarChanceChuva(dados.chanceChuva)}</strong>
-          <p className="texto-apoio">Ajuda a planejar saidas e deslocamentos.</p>
+          <span>Chuva</span>
         </article>
 
-        <article className="cartao-detalhe" aria-label={`Umidade do ar de ${formatarUmidade(dados.umidade)}`}>
-          <span className="titulo-detalhe">
-            <IconeGota className="icone-inline" />
-            <span>Umidade do ar</span>
-          </span>
+        <article className="chip-clima" aria-label={`Umidade do ar de ${formatarUmidade(dados.umidade)}`}>
+          <IconeGota className="icone-chip" aria-hidden="true" />
           <strong>{formatarUmidade(dados.umidade)}</strong>
-          <p className="texto-apoio">Umidade alta pode deixar o ar mais abafado.</p>
+          <span>Umidade</span>
         </article>
 
-        <article className="cartao-detalhe" aria-label={`Vento de ${formatarVelocidadeVento(dados.velocidadeVento)}`}>
-          <span className="titulo-detalhe">
-            <IconeVento className="icone-inline" />
-            <span>Vento</span>
-          </span>
+        <article className="chip-clima" aria-label={`Vento de ${formatarVelocidadeVento(dados.velocidadeVento)}`}>
+          <IconeVento className="icone-chip" aria-hidden="true" />
           <strong>{formatarVelocidadeVento(dados.velocidadeVento)}</strong>
-          <p className="texto-apoio">Mostra se o vento esta fraco ou mais presente.</p>
+          <span>Vento</span>
         </article>
       </div>
 
@@ -100,20 +115,24 @@ function CartaoClima({ dados }) {
           <span>Previsao dos proximos dias</span>
         </h4>
         <div className="grade-previsao">
-          {dados.previsao.map((dia) => (
-            <article
-              key={dia.data}
-              className="cartao-previsao"
-              aria-label={`${formatarData(dia.data)} com ${dia.descricao}. Maxima de ${formatarTemperatura(dia.maxima)} e minima de ${formatarTemperatura(dia.minima)}`}
-            >
-              <strong>{formatarData(dia.data)}</strong>
-              <p>{dia.descricao}</p>
-              <p>{formatarTemperatura(dia.maxima)} / {formatarTemperatura(dia.minima)}</p>
-              <p className="texto-previsao-extra">
-                Chance de chuva: {formatarChanceChuva(dia.chanceChuva)}
-              </p>
-            </article>
-          ))}
+          {dados.previsao.map((dia) => {
+            const IconeDoDia = obterIconeDoClima(dia.descricao);
+
+            return (
+              <article
+                key={dia.data}
+                className="dia-previsao"
+                aria-label={`${formatarData(dia.data)} com ${dia.descricao}. Maxima de ${formatarTemperatura(dia.maxima)} e minima de ${formatarTemperatura(dia.minima)}. Chance de chuva: ${formatarChanceChuva(dia.chanceChuva)}`}
+              >
+                <p className="dia-previsao-data">{formatarData(dia.data)}</p>
+                <IconeDoDia className="icone-chip" aria-hidden="true" />
+                <p className="dia-previsao-temperaturas">
+                  <strong>{formatarTemperatura(dia.maxima)}</strong> / {formatarTemperatura(dia.minima)}
+                </p>
+                <p className="dia-previsao-chuva">{formatarChanceChuva(dia.chanceChuva)}</p>
+              </article>
+            );
+          })}
         </div>
       </section>
     </section>

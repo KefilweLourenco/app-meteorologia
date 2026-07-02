@@ -1,0 +1,935 @@
+.aplicativo {
+  width: var(--largura-conteudo);
+  margin: 0 auto;
+  padding: var(--espaco-6) 0 var(--espaco-5);
+}
+
+.rodape {
+  width: var(--largura-conteudo);
+  margin: 0 auto;
+  padding: 0 0 var(--espaco-5);
+  text-align: center;
+  color: var(--cor-texto-secundario);
+}
+
+.rodape p {
+  margin: 0;
+  font-size: 0.9375rem;
+  line-height: 1.6;
+}
+
+.rodape a {
+  color: var(--cor-destaque);
+  font-weight: var(--fonte-peso-medio);
+}
+
+.rodape .rodape-nota {
+  margin-top: 0.35rem;
+  color: var(--cor-texto-suave);
+  font-size: 0.875rem;
+}
+
+.hero {
+  text-align: center;
+  margin-bottom: var(--espaco-5);
+}
+
+.etiqueta {
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 0.875rem;
+  font-weight: var(--fonte-peso-forte);
+  color: var(--cor-texto-secundario);
+}
+
+.hero h1 {
+  margin: var(--espaco-2) 0 var(--espaco-2);
+  font-size: var(--fonte-tamanho-titulo);
+  line-height: var(--line-height-titulo);
+  font-weight: var(--fonte-peso-forte);
+}
+
+.subtitulo {
+  max-width: 42rem;
+  margin: 0 auto;
+  font-size: 1.125rem;
+  line-height: 1.7;
+  color: var(--cor-texto-secundario);
+}
+
+.botao-preferencias {
+  margin-top: var(--espaco-4);
+  min-height: 3rem;
+  padding: 0 1.25rem;
+  border: 0.0625rem solid var(--cor-borda-forte);
+  border-radius: var(--raio-pill);
+  background: var(--cor-superficie-forte);
+  color: var(--cor-texto);
+  font-size: 1rem;
+  font-weight: var(--fonte-peso-forte);
+  cursor: pointer;
+}
+
+.botao-preferencias:hover,
+.botao-voz:hover,
+.botao-fechar-painel:hover,
+.opcao-segmentada:hover {
+  background: var(--cor-superficie-sutil);
+}
+
+.linha-preferencia:hover {
+  background: var(--cor-superficie-sutil);
+  border-radius: var(--raio-sm);
+}
+
+.painel-principal,
+.cartao-clima {
+  background: var(--cor-superficie);
+  border: 0.0625rem solid var(--cor-borda);
+  border-radius: var(--raio-lg);
+  box-shadow: var(--sombra-painel);
+  backdrop-filter: blur(0.875rem);
+}
+
+.painel-principal {
+  padding: var(--espaco-5);
+}
+
+.titulo-secao {
+  margin: 0 0 var(--espaco-3);
+  font-size: 1.5rem;
+  line-height: 1.3;
+}
+
+.formulario-busca {
+  display: grid;
+  gap: var(--espaco-2);
+}
+
+.area-busca {
+  position: relative;
+}
+
+.rotulo-campo {
+  display: block;
+  font-size: var(--fonte-tamanho-label);
+  font-weight: var(--fonte-peso-forte);
+  text-align: center;
+}
+
+.texto-ajuda {
+  margin: 0;
+  max-width: 42rem;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--cor-texto-secundario);
+}
+
+.linha-busca {
+  display: flex;
+  gap: var(--espaco-2);
+  align-items: stretch;
+}
+
+.linha-busca input {
+  flex: 1;
+  min-width: 0;
+  min-height: 3.5rem;
+  border: 0.0625rem solid var(--cor-borda-forte);
+  border-radius: 1rem;
+  padding: 1rem 1.125rem;
+  background: var(--cor-superficie-forte);
+  color: var(--cor-texto);
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.linha-busca button,
+.botao-localizacao {
+  min-height: 3.5rem;
+  border: 0;
+  border-radius: 1rem;
+  padding: 0 1.25rem;
+  background: linear-gradient(135deg, var(--cor-destaque), var(--cor-destaque-escura));
+  color: white;
+  font-size: 1rem;
+  font-weight: var(--fonte-peso-forte);
+  cursor: pointer;
+}
+
+.botao-busca {
+  min-width: 8.5rem;
+}
+
+.lista-sugestoes {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  left: 0;
+  right: 0;
+  z-index: 10;
+  display: grid;
+  gap: 0.375rem;
+  padding: 0.5rem;
+  background: var(--cor-superficie-forte);
+  border: 0.0625rem solid var(--cor-borda);
+  border-radius: 1.125rem;
+  box-shadow: 0 1.125rem 2.375rem rgba(9, 63, 85, 0.16);
+}
+
+.sugestao-status {
+  margin: 0;
+  padding: 0.875rem 1rem;
+  color: var(--cor-texto-secundario);
+}
+
+.item-sugestao {
+  width: 100%;
+  border: 0;
+  border-radius: var(--raio-sm);
+  padding: 0.875rem 1rem;
+  text-align: left;
+  background: rgba(117, 205, 247, 0.12);
+  color: var(--cor-texto);
+  cursor: pointer;
+}
+
+.item-sugestao strong,
+.item-sugestao span {
+  display: block;
+}
+
+.item-sugestao strong {
+  margin-bottom: 0.2rem;
+  font-size: 1rem;
+}
+
+.item-sugestao span {
+  color: var(--cor-texto-secundario);
+  font-size: 0.9375rem;
+  line-height: 1.5;
+}
+
+.item-sugestao:hover,
+.item-sugestao-ativa {
+  background: rgba(117, 205, 247, 0.22);
+}
+
+.botao-localizacao {
+  margin-top: var(--espaco-3);
+  width: 100%;
+}
+
+.linha-acoes-entrada {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--espaco-2);
+  align-items: stretch;
+  margin-top: var(--espaco-3);
+}
+
+.linha-acoes-entrada .botao-localizacao {
+  margin-top: 0;
+  width: auto;
+  flex: 1;
+}
+
+.linha-busca button:disabled,
+.botao-localizacao:disabled {
+  cursor: wait;
+  opacity: 0.74;
+}
+
+/*
+  display: contents faz o wrapper "desaparecer" da arvore de layout: o
+  botao e os textos de status/erro viram filhos diretos do flex row acima,
+  o que permite usar flex-basis: 100% para empurrar o texto para uma nova
+  linha (fluxo normal, sem position: absolute flutuando por cima de outros
+  elementos e vazando em telas estreitas).
+*/
+.busca-por-voz {
+  display: contents;
+}
+
+.botao-voz {
+  width: 3.5rem;
+  min-height: 3.5rem;
+  flex-shrink: 0;
+  border: 0.0625rem solid var(--cor-borda-forte);
+  border-radius: 1rem;
+  background: var(--cor-superficie-forte);
+  color: var(--cor-texto);
+  cursor: pointer;
+}
+
+.botao-voz[aria-pressed="true"] {
+  border-color: var(--cor-destaque);
+  color: var(--cor-destaque);
+}
+
+.botao-voz .icone {
+  width: 1.375rem;
+  height: 1.375rem;
+}
+
+.status-voz,
+.erro-voz {
+  flex-basis: 100%;
+  margin: 0;
+  padding: var(--espaco-2) var(--espaco-3);
+  background: var(--cor-superficie-sutil);
+  border: 0.0625rem solid var(--cor-borda);
+  border-radius: var(--raio-sm);
+  font-size: 0.9375rem;
+}
+
+.status-voz {
+  color: var(--cor-texto-secundario);
+}
+
+.erro-voz {
+  color: var(--cor-erro);
+}
+
+.mensagem {
+  min-height: 1.5rem;
+  margin: var(--espaco-3) 0 0;
+  text-align: center;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.mensagem-sucesso {
+  color: var(--cor-sucesso);
+}
+
+.mensagem-erro {
+  color: var(--cor-erro);
+}
+
+.mensagem-info {
+  color: var(--cor-texto-secundario);
+}
+
+.icone {
+  width: 1.125rem;
+  height: 1.125rem;
+  flex-shrink: 0;
+}
+
+.icone-inline {
+  width: 1rem;
+  height: 1rem;
+}
+
+.cartao-clima {
+  margin-top: var(--espaco-4);
+  padding: var(--espaco-5);
+}
+
+.cabecalho-clima {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: var(--espaco-4);
+  align-items: start;
+}
+
+.bloco-cidade {
+  display: grid;
+  gap: var(--espaco-1);
+}
+
+.legenda,
+.descricao-clima,
+.origem-clima,
+.temperatura-apoio {
+  color: var(--cor-texto-secundario);
+}
+
+.legenda {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.titulo-cidade {
+  margin: 0;
+  font-size: var(--fonte-tamanho-cidade);
+  line-height: 1.2;
+  font-weight: var(--fonte-peso-forte);
+}
+
+.descricao-clima,
+.origem-clima {
+  margin: 0;
+  font-size: 1.125rem;
+  line-height: 1.6;
+}
+
+.descricao-clima,
+.titulo-secao-interna {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.temperatura-principal {
+  display: grid;
+  justify-items: end;
+  gap: 0.25rem;
+}
+
+.temperatura-destaque {
+  margin: 0;
+  font-size: var(--fonte-tamanho-temperatura);
+  line-height: 1;
+  font-weight: var(--fonte-peso-forte);
+}
+
+.temperatura-apoio {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.resumo-simples {
+  margin: var(--espaco-4) 0 0;
+  padding: var(--espaco-3) var(--espaco-4);
+  background: var(--cor-superficie-sutil);
+  border: 0.0625rem solid var(--cor-borda);
+  border-radius: var(--raio-sm);
+  color: var(--cor-texto);
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.botao-ouvir-previsao {
+  margin-top: var(--espaco-3);
+  min-height: 3rem;
+  padding: 0 1.25rem;
+  border: 0.0625rem solid var(--cor-borda-forte);
+  border-radius: var(--raio-pill);
+  background: transparent;
+  color: var(--cor-texto);
+  font-size: 0.9375rem;
+  font-weight: var(--fonte-peso-medio);
+  cursor: pointer;
+}
+
+.grade-detalhes,
+.grade-previsao {
+  display: grid;
+  gap: var(--espaco-3);
+}
+
+.grade-detalhes {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin: var(--espaco-5) 0;
+}
+
+.chip-clima {
+  display: grid;
+  justify-items: center;
+  gap: 0.3rem;
+  padding: var(--espaco-3);
+  text-align: center;
+  background: var(--cor-superficie-sutil);
+  border: 0.0625rem solid var(--cor-borda);
+  border-radius: var(--raio-md);
+}
+
+.icone-chip {
+  width: 1.375rem;
+  height: 1.375rem;
+  color: var(--cor-texto-secundario);
+}
+
+.chip-clima strong {
+  font-size: 1.25rem;
+  font-weight: var(--fonte-peso-forte);
+  line-height: 1.2;
+}
+
+.chip-clima span {
+  font-size: 0.8125rem;
+  color: var(--cor-texto-secundario);
+}
+
+.titulo-secao-interna {
+  margin: 0 0 var(--espaco-3);
+  font-size: 1.5rem;
+  line-height: 1.3;
+}
+
+.grade-previsao {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.dia-previsao {
+  display: grid;
+  justify-items: center;
+  gap: 0.3rem;
+  padding: var(--espaco-3);
+  text-align: center;
+  background: var(--cor-superficie-sutil);
+  border: 0.0625rem solid var(--cor-borda);
+  border-radius: var(--raio-md);
+}
+
+.dia-previsao-data {
+  margin: 0;
+  font-size: 0.875rem;
+  font-weight: var(--fonte-peso-forte);
+  text-transform: capitalize;
+}
+
+.dia-previsao-temperaturas {
+  margin: 0;
+  font-size: 0.9375rem;
+  color: var(--cor-texto-secundario);
+}
+
+.dia-previsao-temperaturas strong {
+  color: var(--cor-texto);
+  font-weight: var(--fonte-peso-forte);
+}
+
+.dia-previsao-chuva {
+  margin: 0;
+  font-size: 0.8125rem;
+  color: var(--cor-texto-suave);
+}
+
+.descricao-clima .icone-inline {
+  color: #386373;
+}
+
+.chip-clima:nth-child(1) .icone-chip {
+  color: #ec8c25;
+}
+
+.chip-clima:nth-child(2) .icone-chip {
+  color: #2b7ac7;
+}
+
+.chip-clima:nth-child(3) .icone-chip {
+  color: #1f8acb;
+}
+
+.chip-clima:nth-child(4) .icone-chip {
+  color: #4b6f88;
+}
+
+.titulo-secao-interna .icone-inline {
+  color: var(--cor-destaque);
+}
+
+/*
+  Sistema de breakpoints: cada nivel reorganiza o layout, nao apenas encolhe.
+  1024: notebook pequeno / tablet paisagem
+  768:  tablet retrato
+  600:  celular grande
+  380:  celular pequeno
+*/
+
+@media (max-width: 767px) {
+  :root {
+    --largura-conteudo: min(100%, calc(100% - 1rem));
+  }
+
+  .aplicativo {
+    padding: var(--espaco-4) 0 var(--espaco-5);
+  }
+
+  .painel-principal,
+  .cartao-clima {
+    padding: var(--espaco-4);
+    border-radius: var(--raio-card);
+  }
+
+  .linha-busca,
+  .cabecalho-clima {
+    grid-template-columns: 1fr;
+    display: grid;
+  }
+
+  .lista-sugestoes {
+    position: static;
+    margin-top: 0.625rem;
+  }
+
+  .grade-detalhes {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .grade-previsao {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .temperatura-principal {
+    justify-items: start;
+  }
+}
+
+@media (max-width: 599px) {
+  .grade-previsao {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 379px) {
+  :root {
+    --largura-conteudo: min(100%, calc(100% - 0.75rem));
+  }
+
+  .texto-ajuda,
+  .subtitulo,
+  .mensagem,
+  .descricao-clima,
+  .origem-clima {
+    font-size: 1rem;
+  }
+
+  .linha-acoes-entrada {
+    flex-direction: column;
+  }
+
+  .botao-voz {
+    width: 100%;
+  }
+}
+
+@media (max-height: 480px) and (orientation: landscape) {
+  .aplicativo {
+    padding-top: var(--espaco-3);
+  }
+
+  .hero {
+    margin-bottom: var(--espaco-3);
+  }
+
+  .hero h1 {
+    margin: var(--espaco-1) 0;
+  }
+}
+
+.secao-clima-pratica {
+  margin-top: var(--espaco-4);
+  padding: var(--espaco-5);
+  background: var(--cor-superficie);
+  border: 0.0625rem solid var(--cor-borda);
+  border-radius: var(--raio-lg);
+  box-shadow: var(--sombra-painel);
+}
+
+.cabecalho-pratica {
+  display: grid;
+  gap: var(--espaco-1);
+  margin-bottom: var(--espaco-4);
+}
+
+.etiqueta-pratica {
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 0.875rem;
+  font-weight: var(--fonte-peso-forte);
+  color: var(--cor-texto-secundario);
+}
+
+.cabecalho-pratica h2,
+.titulo-bloco-pratico {
+  margin: 0;
+}
+
+.cabecalho-pratica h2 {
+  font-size: 1.75rem;
+  line-height: 1.25;
+}
+
+.subtitulo-pratica,
+.texto-bloco-pratico {
+  margin: 0;
+  font-size: 1rem;
+  color: var(--cor-texto-secundario);
+}
+
+.bloco-pratico + .bloco-pratico {
+  margin-top: var(--espaco-5);
+}
+
+.titulo-bloco-pratico {
+  margin-bottom: var(--espaco-3);
+  font-size: 1.25rem;
+  line-height: 1.3;
+}
+
+.texto-bloco-pratico {
+  margin-bottom: var(--espaco-3);
+}
+
+.grade-pratica {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--espaco-3);
+}
+
+.cartao-pratico {
+  display: grid;
+  gap: var(--espaco-2);
+  padding: var(--espaco-4);
+  background: var(--cor-superficie-sutil);
+  border: 0.0625rem solid var(--cor-borda);
+  border-radius: var(--raio-md);
+}
+
+.cabecalho-cartao-pratico {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--espaco-2);
+}
+
+.categoria-pratica {
+  margin: 0 0 0.25rem;
+  font-size: 0.875rem;
+  font-weight: var(--fonte-peso-medio);
+  color: var(--cor-texto-secundario);
+}
+
+.cabecalho-cartao-pratico h4 {
+  margin: 0;
+  font-size: 1.125rem;
+  line-height: 1.35;
+}
+
+.nivel-pratico {
+  flex-shrink: 0;
+  padding: 0.35rem 0.7rem;
+  border-radius: var(--raio-pill);
+  border: 0.0625rem solid var(--cor-borda-forte);
+  background: rgba(13, 101, 130, 0.08);
+  color: var(--cor-texto);
+  font-size: 0.9375rem;
+  font-weight: var(--fonte-peso-forte);
+}
+
+.nivel-favoravel,
+.nivel-baixo {
+  background: rgba(15, 106, 75, 0.12);
+  border-color: rgba(15, 106, 75, 0.24);
+}
+
+.nivel-moderado,
+.nivel-atencao {
+  background: rgba(236, 140, 37, 0.14);
+  border-color: rgba(236, 140, 37, 0.28);
+}
+
+.nivel-alto,
+.nivel-evite {
+  background: rgba(143, 37, 37, 0.12);
+  border-color: rgba(143, 37, 37, 0.24);
+}
+
+.descricao-pratica,
+.recomendacao-pratica,
+.rodape-pratico p {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.recomendacao-pratica strong,
+.rodape-pratico span {
+  color: var(--cor-texto);
+}
+
+.rodape-pratico {
+  display: grid;
+  gap: 0.35rem;
+  padding-top: var(--espaco-2);
+  border-top: 0.0625rem solid var(--cor-borda);
+}
+
+.rodape-pratico p {
+  color: var(--cor-texto-secundario);
+}
+
+@media (max-width: 1023px) {
+  .grade-pratica {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 767px) {
+  .secao-clima-pratica {
+    padding: var(--espaco-4);
+    border-radius: var(--raio-card);
+  }
+
+  .cabecalho-cartao-pratico {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 599px) {
+  .grade-pratica {
+    grid-template-columns: 1fr;
+  }
+}
+
+.painel-acessibilidade {
+  width: min(28rem, calc(100% - 2rem));
+  max-height: min(88vh, 42rem);
+  padding: 0;
+  border: 0.0625rem solid var(--cor-borda-forte);
+  border-radius: var(--raio-lg);
+  background: var(--cor-superficie-forte);
+  color: var(--cor-texto);
+  box-shadow: var(--sombra-painel);
+}
+
+.painel-acessibilidade::backdrop {
+  background: rgba(8, 20, 28, 0.5);
+}
+
+.cabecalho-painel-acessibilidade {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--espaco-3);
+  padding: var(--espaco-4) var(--espaco-4) 0;
+}
+
+.cabecalho-painel-acessibilidade h2 {
+  margin: 0;
+  font-size: 1.375rem;
+  line-height: 1.3;
+}
+
+.botao-fechar-painel {
+  flex-shrink: 0;
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0;
+  border: 0.0625rem solid var(--cor-borda-forte);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--cor-texto);
+  cursor: pointer;
+}
+
+.texto-ajuda-painel {
+  margin: var(--espaco-2) 0 0;
+  padding: 0 var(--espaco-4);
+  color: var(--cor-texto-secundario);
+  font-size: 0.9375rem;
+  line-height: 1.6;
+}
+
+.lista-preferencias {
+  display: grid;
+  padding: var(--espaco-2) var(--espaco-4) var(--espaco-4);
+}
+
+.linha-preferencia {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--espaco-3);
+  padding: var(--espaco-3) 0;
+  border-bottom: 0.0625rem solid var(--cor-borda);
+  cursor: pointer;
+}
+
+.linha-preferencia:last-child {
+  border-bottom: 0;
+}
+
+.rotulo-preferencia {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+  font-size: 1rem;
+}
+
+.interruptor {
+  position: relative;
+  display: inline-flex;
+  width: 2.75rem;
+  height: 1.625rem;
+  flex-shrink: 0;
+}
+
+.interruptor input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  margin: 0;
+  cursor: pointer;
+}
+
+.trilho-interruptor {
+  position: absolute;
+  inset: 0;
+  background: var(--cor-trilho-inativo);
+  border-radius: var(--raio-pill);
+  transition: background var(--duracao-base) var(--facilitador-padrao);
+  pointer-events: none;
+}
+
+.trilho-interruptor::before {
+  content: "";
+  position: absolute;
+  width: 1.25rem;
+  height: 1.25rem;
+  left: 0.1875rem;
+  top: 0.1875rem;
+  background: var(--cor-superficie-forte);
+  border-radius: 50%;
+  transition: transform var(--duracao-base) var(--facilitador-padrao);
+}
+
+.interruptor input:checked + .trilho-interruptor {
+  background: var(--cor-destaque);
+}
+
+.interruptor input:checked + .trilho-interruptor::before {
+  transform: translateX(1.125rem);
+}
+
+.interruptor input:focus-visible + .trilho-interruptor {
+  outline: 0.1875rem solid var(--cor-foco);
+  outline-offset: 0.125rem;
+}
+
+.segmentado {
+  display: flex;
+  border: 0.0625rem solid var(--cor-borda-forte);
+  border-radius: var(--raio-sm);
+  overflow: hidden;
+}
+
+.opcao-segmentada {
+  padding: 0.4rem 0.75rem;
+  border: 0;
+  background: transparent;
+  color: var(--cor-texto-secundario);
+  font-size: 0.875rem;
+  font-weight: var(--fonte-peso-medio);
+  cursor: pointer;
+}
+
+.opcao-segmentada-ativa {
+  background: var(--cor-destaque);
+  color: white;
+}
+
+@media (max-width: 379px) {
+  .painel-acessibilidade {
+    width: calc(100% - 1.5rem);
+  }
+}

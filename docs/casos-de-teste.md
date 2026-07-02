@@ -152,14 +152,22 @@ npm run test
 - cards nao se sobrepoem;
 - textos nao sao cortados.
 
-### Modo acessivel ativado
+### Preferencias de acessibilidade ativadas
 
-**Cenario:** a pessoa ativa o modo acessivel.
+**Cenario:** a pessoa abre o painel de preferencias e ativa um ou mais controles (fonte, contraste, tema, animacoes, foco, linguagem simplificada).
 
 **Comportamento esperado:**
-- a tipografia aumenta;
-- o espacamento entre blocos cresce;
-- botoes e cards ficam mais confortaveis para leitura e clique.
+- cada preferencia muda apenas o que se propoe a mudar, de forma independente das outras;
+- as preferencias ficam salvas em `localStorage` e continuam ativas ao recarregar a pagina;
+- o painel fecha com o botao de fechar, com `Escape` ou clicando fora, e devolve o foco ao botao que o abriu.
+
+### Busca por voz
+
+**Cenario:** a pessoa usuaria clica no botao de microfone e fala o nome de uma cidade.
+
+**Comportamento esperado:**
+- a busca acontece automaticamente ao reconhecer a fala, sem etapa extra de confirmacao;
+- se houver falha (permissao negada, sem microfone, sem rede), a mensagem de erro exibida e especifica para a causa.
 
 ## 5. Regras de comportamento esperado
 

@@ -282,19 +282,29 @@ function gerarVitaminaD({ descricao, horario, indiceUv }) {
   });
 }
 
-function gerarMobilidadeEmSp({ temperatura, chanceChuva, velocidadeVento, descricao }) {
+function obterNomeCurtoDaCidade(cidade) {
+  if (!cidade) {
+    return "sua cidade";
+  }
+
+  return cidade.split(",")[0].trim();
+}
+
+function gerarMobilidadeUrbana({ temperatura, chanceChuva, velocidadeVento, descricao, cidade }) {
   const chuva = climaTemChuva(descricao, chanceChuva);
   const ventoForte = velocidadeVento >= 22;
   const frio = temperatura < 17;
   const calor = temperatura >= 29;
+  const nomeCidade = obterNomeCurtoDaCidade(cidade);
+  const titulo = `Mobilidade em ${nomeCidade}`;
 
   if (chuva) {
     return criarInsight({
-      id: "mobilidade-sp",
-      titulo: "Mobilidade em SP",
+      id: "mobilidade-urbana",
+      titulo,
       categoria: "rotina urbana",
       nivel: "Atenção",
-      descricao: "Chuva pode deixar deslocamentos mais lentos e pisos mais escorregadios.",
+      descricao: `Chuva pode deixar os deslocamentos em ${nomeCidade} mais lentos, com pisos mais escorregadios.`,
       recomendacao: "Leve guarda-chuva e saia alguns minutos antes.",
       dadoUsado: "chuva, temperatura e vento",
       confiabilidade: "estimativa"
@@ -303,11 +313,11 @@ function gerarMobilidadeEmSp({ temperatura, chanceChuva, velocidadeVento, descri
 
   if (frio || ventoForte) {
     return criarInsight({
-      id: "mobilidade-sp",
-      titulo: "Mobilidade em SP",
+      id: "mobilidade-urbana",
+      titulo,
       categoria: "rotina urbana",
       nivel: "Moderado",
-      descricao: "Frio e vento podem incomodar em pontos de ônibus e áreas abertas.",
+      descricao: `Frio e vento podem incomodar mais quem se desloca em ${nomeCidade}, principalmente em pontos de ônibus e áreas abertas.`,
       recomendacao: "Vale levar blusa e se preparar para trechos ao ar livre.",
       dadoUsado: "temperatura, vento e condição do tempo",
       confiabilidade: "estimativa"
@@ -316,11 +326,11 @@ function gerarMobilidadeEmSp({ temperatura, chanceChuva, velocidadeVento, descri
 
   if (calor) {
     return criarInsight({
-      id: "mobilidade-sp",
-      titulo: "Mobilidade em SP",
+      id: "mobilidade-urbana",
+      titulo,
       categoria: "rotina urbana",
       nivel: "Moderado",
-      descricao: "Calor forte pode cansar mais em deslocamentos longos.",
+      descricao: `Calor forte pode cansar mais quem faz deslocamentos longos em ${nomeCidade}.`,
       recomendacao: "Se o trajeto for maior, leve água e prefira pausas na sombra.",
       dadoUsado: "temperatura e condição do tempo",
       confiabilidade: "estimativa"
@@ -328,11 +338,11 @@ function gerarMobilidadeEmSp({ temperatura, chanceChuva, velocidadeVento, descri
   }
 
   return criarInsight({
-    id: "mobilidade-sp",
-    titulo: "Mobilidade em SP",
+    id: "mobilidade-urbana",
+    titulo,
     categoria: "rotina urbana",
     nivel: "Favorável",
-    descricao: "O clima tende a ajudar deslocamentos mais estáveis hoje.",
+    descricao: `O clima tende a ajudar os deslocamentos em ${nomeCidade} a serem mais estáveis hoje.`,
     recomendacao: "A rotina urbana pode seguir com menos impacto do tempo.",
     dadoUsado: "temperatura, chuva, vento e condição do tempo",
     confiabilidade: "estimativa"
@@ -352,7 +362,8 @@ export function gerarClimaNaPratica(dadosClima) {
     velocidadeVento: dadosClima.velocidadeVento,
     descricao: dadosClima.descricao,
     horario: obterHoraAtual(dadosClima),
-    indiceUv: dadosClima.indiceUv
+    indiceUv: dadosClima.indiceUv,
+    cidade: dadosClima.cidade
   };
 
   return [
@@ -361,6 +372,6 @@ export function gerarClimaNaPratica(dadosClima) {
     gerarPeleRessecada(base),
     gerarMosquitos(base),
     gerarVitaminaD(base),
-    gerarMobilidadeEmSp(base)
+    gerarMobilidadeUrbana(base)
   ];
 }

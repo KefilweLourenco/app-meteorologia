@@ -1,0 +1,150 @@
+:root {
+  /* Tipografia */
+  --fonte-principal: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, Verdana, sans-serif;
+  --fonte-tamanho-base: 1rem;
+  --fonte-tamanho-secundario: 0.9375rem;
+  --fonte-tamanho-label: 1rem;
+  --fonte-tamanho-titulo: clamp(2.4rem, 4.6vw, 4.2rem);
+  --fonte-tamanho-cidade: clamp(1.75rem, 3vw, 2.5rem);
+  --fonte-tamanho-temperatura: clamp(2.5rem, 5vw, 4rem);
+  --fonte-peso-normal: 400;
+  --fonte-peso-medio: 500;
+  --fonte-peso-forte: 700;
+  --line-height-base: 1.6;
+  --line-height-titulo: 1.15;
+  --letter-spacing-suave: 0.01em;
+
+  /* Layout */
+  --largura-conteudo: min(62rem, calc(100% - 2rem));
+
+  /* Espacamento */
+  --espaco-1: 0.5rem;
+  --espaco-2: 0.75rem;
+  --espaco-3: 1rem;
+  --espaco-4: 1.5rem;
+  --espaco-5: 2rem;
+  --espaco-6: 2.5rem;
+
+  /* Raios */
+  --raio-sm: 0.875rem;
+  --raio-md: 1.25rem;
+  --raio-lg: 1.75rem;
+  --raio-pill: 999px;
+  --raio-card: 1.5rem;
+
+  /* Movimento: durações para microinterações futuras, sempre respeitando prefers-reduced-motion (ver base.css) */
+  --duracao-rapida: 120ms;
+  --duracao-base: 200ms;
+  --facilitador-padrao: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /*
+    Paleta bruta: claro e escuro convivem sempre no documento como variaveis
+    "privadas". Quem decide qual usar sao os tokens de cor logo abaixo, a
+    media query de tema do sistema, e [data-tema] em acessibilidade.css
+    (escolha manual do usuario). Isso evita repetir valores hexadecimais em
+    tres lugares diferentes.
+  */
+  --paleta-clara-fundo-topo: #d8f1ff;
+  --paleta-clara-fundo-meio: #7bcff8;
+  --paleta-clara-fundo-base: #2496dd;
+  --paleta-clara-realce-fundo: rgba(255, 255, 255, 0.64);
+  --paleta-clara-superficie: rgba(255, 255, 255, 0.94);
+  --paleta-clara-superficie-forte: rgba(255, 255, 255, 0.98);
+  --paleta-clara-superficie-sutil: rgba(255, 255, 255, 0.78);
+  --paleta-clara-texto: #122f38;
+  --paleta-clara-texto-secundario: #2e4f59;
+  --paleta-clara-texto-suave: #45636c;
+  --paleta-clara-destaque: #0d6582;
+  --paleta-clara-destaque-escura: #083e54;
+  --paleta-clara-sucesso: #0f6a4b;
+  --paleta-clara-erro: #8f2525;
+  --paleta-clara-borda: rgba(13, 101, 130, 0.14);
+  --paleta-clara-borda-forte: rgba(13, 101, 130, 0.24);
+  --paleta-clara-foco: #0b5f7b;
+  --paleta-clara-sombra-painel: 0 1.5rem 3rem rgba(9, 63, 85, 0.16);
+  --paleta-clara-trilho-inativo: #7f939b;
+
+  --paleta-escura-fundo-topo: #0a1420;
+  --paleta-escura-fundo-meio: #0f2338;
+  --paleta-escura-fundo-base: #142f4a;
+  --paleta-escura-realce-fundo: rgba(255, 255, 255, 0.05);
+  --paleta-escura-superficie: rgba(22, 32, 44, 0.92);
+  --paleta-escura-superficie-forte: rgba(27, 38, 51, 0.98);
+  --paleta-escura-superficie-sutil: rgba(255, 255, 255, 0.06);
+  --paleta-escura-texto: #eef3f6;
+  --paleta-escura-texto-secundario: #b9c6ce;
+  --paleta-escura-texto-suave: #90a1ab;
+  --paleta-escura-destaque: #5cc4f2;
+  --paleta-escura-destaque-escura: #2f8fc4;
+  --paleta-escura-sucesso: #5ce0a8;
+  --paleta-escura-erro: #f3a6a6;
+  --paleta-escura-borda: rgba(255, 255, 255, 0.12);
+  --paleta-escura-borda-forte: rgba(255, 255, 255, 0.22);
+  --paleta-escura-foco: #7cd1ff;
+  --paleta-escura-sombra-painel: 0 1.5rem 3rem rgba(0, 0, 0, 0.45);
+  --paleta-escura-trilho-inativo: #6b7b83;
+
+  /* Tokens de cor que os componentes realmente consomem - por padrao, tema claro */
+  --cor-fundo-topo: var(--paleta-clara-fundo-topo);
+  --cor-fundo-meio: var(--paleta-clara-fundo-meio);
+  --cor-fundo-base: var(--paleta-clara-fundo-base);
+  --realce-fundo: var(--paleta-clara-realce-fundo);
+  --cor-superficie: var(--paleta-clara-superficie);
+  --cor-superficie-forte: var(--paleta-clara-superficie-forte);
+  --cor-superficie-sutil: var(--paleta-clara-superficie-sutil);
+  --cor-texto: var(--paleta-clara-texto);
+  --cor-texto-secundario: var(--paleta-clara-texto-secundario);
+  --cor-texto-suave: var(--paleta-clara-texto-suave);
+  --cor-destaque: var(--paleta-clara-destaque);
+  --cor-destaque-escura: var(--paleta-clara-destaque-escura);
+  --cor-sucesso: var(--paleta-clara-sucesso);
+  --cor-erro: var(--paleta-clara-erro);
+  --cor-borda: var(--paleta-clara-borda);
+  --cor-borda-forte: var(--paleta-clara-borda-forte);
+  --cor-foco: var(--paleta-clara-foco);
+  --sombra-painel: var(--paleta-clara-sombra-painel);
+  --cor-trilho-inativo: var(--paleta-clara-trilho-inativo);
+}
+
+/*
+  Tema escuro segue a preferencia do sistema operacional quando o usuario
+  nao escolheu nada manualmente (data-tema="automatico" ou ausente).
+  A escolha manual (claro/escuro) fica em acessibilidade.css com [data-tema],
+  que tem especificidade maior e sempre vence esta media query.
+*/
+@media (prefers-color-scheme: dark) {
+  :root {
+    --cor-fundo-topo: var(--paleta-escura-fundo-topo);
+    --cor-fundo-meio: var(--paleta-escura-fundo-meio);
+    --cor-fundo-base: var(--paleta-escura-fundo-base);
+    --realce-fundo: var(--paleta-escura-realce-fundo);
+    --cor-superficie: var(--paleta-escura-superficie);
+    --cor-superficie-forte: var(--paleta-escura-superficie-forte);
+    --cor-superficie-sutil: var(--paleta-escura-superficie-sutil);
+    --cor-texto: var(--paleta-escura-texto);
+    --cor-texto-secundario: var(--paleta-escura-texto-secundario);
+    --cor-texto-suave: var(--paleta-escura-texto-suave);
+    --cor-destaque: var(--paleta-escura-destaque);
+    --cor-destaque-escura: var(--paleta-escura-destaque-escura);
+    --cor-sucesso: var(--paleta-escura-sucesso);
+    --cor-erro: var(--paleta-escura-erro);
+    --cor-borda: var(--paleta-escura-borda);
+    --cor-borda-forte: var(--paleta-escura-borda-forte);
+    --cor-foco: var(--paleta-escura-foco);
+    --sombra-painel: var(--paleta-escura-sombra-painel);
+    --cor-trilho-inativo: var(--paleta-escura-trilho-inativo);
+  }
+}
+
+/*
+  Alto contraste automatico (SO): reforca bordas e texto de apoio, em
+  qualquer tema. A escolha manual do usuario vive em acessibilidade.css
+  com [data-contraste="alto"].
+*/
+@media (prefers-contrast: more) {
+  :root {
+    --cor-borda: var(--cor-borda-forte);
+    --cor-texto-secundario: var(--cor-texto);
+    --cor-texto-suave: var(--cor-texto-secundario);
+  }
+}

@@ -1,0 +1,86 @@
+/*
+  Cada regra abaixo reage a UM atributo de dados aplicado no <html> pelo
+  AcessibilidadeProvider (src/contexto/AcessibilidadeContext.jsx). Cada
+  preferencia funciona de forma independente das outras - essa e a
+  diferenca central em relacao ao antigo "modo acessivel" unico.
+*/
+
+/* Aumentar fonte */
+:root[data-fonte="grande"] {
+  --fonte-tamanho-base: 1.125rem;
+  --fonte-tamanho-secundario: 1rem;
+  --fonte-tamanho-label: 1.125rem;
+  --fonte-tamanho-cidade: clamp(2rem, 3.2vw, 2.9rem);
+  --fonte-tamanho-temperatura: clamp(3rem, 5.6vw, 4.3rem);
+  --line-height-base: 1.8;
+}
+
+/* Alto contraste (escolha manual, independente do prefers-contrast do SO) */
+:root[data-contraste="alto"] {
+  --cor-borda: var(--cor-borda-forte);
+  --cor-texto-secundario: var(--cor-texto);
+  --cor-texto-suave: var(--cor-texto-secundario);
+}
+
+/* Tema: escolha manual sobrepoe a preferencia do sistema operacional */
+:root[data-tema="claro"] {
+  --cor-fundo-topo: var(--paleta-clara-fundo-topo);
+  --cor-fundo-meio: var(--paleta-clara-fundo-meio);
+  --cor-fundo-base: var(--paleta-clara-fundo-base);
+  --realce-fundo: var(--paleta-clara-realce-fundo);
+  --cor-superficie: var(--paleta-clara-superficie);
+  --cor-superficie-forte: var(--paleta-clara-superficie-forte);
+  --cor-superficie-sutil: var(--paleta-clara-superficie-sutil);
+  --cor-texto: var(--paleta-clara-texto);
+  --cor-texto-secundario: var(--paleta-clara-texto-secundario);
+  --cor-texto-suave: var(--paleta-clara-texto-suave);
+  --cor-destaque: var(--paleta-clara-destaque);
+  --cor-destaque-escura: var(--paleta-clara-destaque-escura);
+  --cor-sucesso: var(--paleta-clara-sucesso);
+  --cor-erro: var(--paleta-clara-erro);
+  --cor-borda: var(--paleta-clara-borda);
+  --cor-borda-forte: var(--paleta-clara-borda-forte);
+  --cor-foco: var(--paleta-clara-foco);
+  --sombra-painel: var(--paleta-clara-sombra-painel);
+  --cor-trilho-inativo: var(--paleta-clara-trilho-inativo);
+}
+
+:root[data-tema="escuro"] {
+  --cor-fundo-topo: var(--paleta-escura-fundo-topo);
+  --cor-fundo-meio: var(--paleta-escura-fundo-meio);
+  --cor-fundo-base: var(--paleta-escura-fundo-base);
+  --realce-fundo: var(--paleta-escura-realce-fundo);
+  --cor-superficie: var(--paleta-escura-superficie);
+  --cor-superficie-forte: var(--paleta-escura-superficie-forte);
+  --cor-superficie-sutil: var(--paleta-escura-superficie-sutil);
+  --cor-texto: var(--paleta-escura-texto);
+  --cor-texto-secundario: var(--paleta-escura-texto-secundario);
+  --cor-texto-suave: var(--paleta-escura-texto-suave);
+  --cor-destaque: var(--paleta-escura-destaque);
+  --cor-destaque-escura: var(--paleta-escura-destaque-escura);
+  --cor-sucesso: var(--paleta-escura-sucesso);
+  --cor-erro: var(--paleta-escura-erro);
+  --cor-borda: var(--paleta-escura-borda);
+  --cor-borda-forte: var(--paleta-escura-borda-forte);
+  --cor-foco: var(--paleta-escura-foco);
+  --sombra-painel: var(--paleta-escura-sombra-painel);
+  --cor-trilho-inativo: var(--paleta-escura-trilho-inativo);
+}
+
+/* Reduzir animacoes: escolha manual, mesma regra do prefers-reduced-motion do SO */
+:root[data-movimento="reduzido"] *,
+:root[data-movimento="reduzido"] *::before,
+:root[data-movimento="reduzido"] *::after {
+  animation: none !important;
+  transition: none !important;
+  scroll-behavior: auto !important;
+}
+
+/* Destacar foco do teclado: contorno mais grosso e com mais respiro */
+:root[data-foco="destacado"] button:focus-visible,
+:root[data-foco="destacado"] input:focus-visible,
+:root[data-foco="destacado"] a:focus-visible,
+:root[data-foco="destacado"] .item-sugestao:focus-visible {
+  outline-width: 0.3rem;
+  outline-offset: 0.25rem;
+}

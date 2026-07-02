@@ -108,10 +108,100 @@ export function IconeCalendario(props) {
   );
 }
 
+export function IconeMicrofone(props) {
+  return (
+    <IconeBase {...props}>
+      <rect x="9" y="3" width="6" height="11" rx="3" />
+      <path d="M5 11a7 7 0 0014 0" />
+      <path d="M12 18v3" />
+      <path d="M9 21h6" />
+    </IconeBase>
+  );
+}
+
 export function IconeNuvem(props) {
   return (
     <IconeBase {...props}>
       <path d="M8 18h8a4 4 0 001-7.9A5.5 5.5 0 006.2 8.6 4.5 4.5 0 008 18z" />
+    </IconeBase>
+  );
+}
+
+export function IconeAcessibilidade(props) {
+  return (
+    <IconeBase {...props}>
+      <circle cx="12" cy="4.5" r="1.7" />
+      <path d="M12 8v5.5M8.5 10.2L12 9l3.5 1.2M9 20.5l1.6-6.3h2.8l1.6 6.3" />
+    </IconeBase>
+  );
+}
+
+export function IconeFonte(props) {
+  return (
+    <IconeBase {...props}>
+      <path d="M6 19L11 5h2l5 14" />
+      <path d="M8.2 14h7.6" />
+    </IconeBase>
+  );
+}
+
+export function IconeContraste(props) {
+  return (
+    <IconeBase {...props}>
+      <circle cx="12" cy="12" r="8" />
+      <path d="M12 4v16" />
+    </IconeBase>
+  );
+}
+
+export function IconeTela(props) {
+  return (
+    <IconeBase {...props}>
+      <rect x="3" y="4" width="18" height="12" rx="2" />
+      <path d="M8 20h8M12 16v4" />
+    </IconeBase>
+  );
+}
+
+export function IconeMovimento(props) {
+  return (
+    <IconeBase {...props}>
+      <rect x="7" y="5" width="3.2" height="14" rx="1" />
+      <rect x="13.8" y="5" width="3.2" height="14" rx="1" />
+    </IconeBase>
+  );
+}
+
+export function IconeVoz(props) {
+  return (
+    <IconeBase {...props}>
+      <path d="M4 9v6h4l5 4V5L8 9H4z" />
+      <path d="M17 9a5 5 0 010 6" />
+    </IconeBase>
+  );
+}
+
+export function IconeTeclado(props) {
+  return (
+    <IconeBase {...props}>
+      <rect x="2.5" y="6" width="19" height="12" rx="2" />
+      <path d="M6.5 14h11" />
+    </IconeBase>
+  );
+}
+
+export function IconeTexto(props) {
+  return (
+    <IconeBase {...props}>
+      <path d="M4 6h16M4 12h10M4 18h13" />
+    </IconeBase>
+  );
+}
+
+export function IconeFechar(props) {
+  return (
+    <IconeBase {...props}>
+      <path d="M6 6l12 12M18 6L6 18" />
     </IconeBase>
   );
 }

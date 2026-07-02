@@ -1,8 +1,8 @@
 # App Meteorologia
 
-Aplicativo web de previsao do tempo desenvolvido com **React** e **Vite**.
+Aplicativo web de previsao do tempo desenvolvido com **React** e **Vite**, com foco em acessibilidade real, design responsivo e experiencia de uso.
 
-O projeto usa a **API Open-Meteo** para consultar o clima atual e a previsao dos proximos dias. A pessoa usuaria pode pesquisar uma cidade pelo nome, escolher uma sugestao de cidade ou usar a localizacao atual do navegador.
+O projeto usa a **API Open-Meteo** para consultar o clima atual e a previsao dos proximos dias. A pessoa usuaria pode pesquisar uma cidade pelo nome, escolher uma sugestao de cidade, usar a localizacao atual do navegador ou buscar por voz.
 
 ## Tecnologias utilizadas
 
@@ -21,22 +21,27 @@ O projeto usa a **API Open-Meteo** para consultar o clima atual e a previsao dos
 
 ## Demonstracao
 
+<<<<<<< HEAD
 https://github.com/user-attachments/assets/ac959305-a89f-42de-ab6e-d37802cbabcd
+=======
+> O video anterior foi gravado antes de uma refatoracao completa de interface e acessibilidade — ficou desatualizado e foi removido daqui. Vale gravar um novo mostrando o painel de preferencias, o tema escuro e a busca por voz.
+>>>>>>> 97e9554 (refactor: reconstroi app com foco em acessibilidade, design system e responsividade real)
 
 ## Funcionalidades
 
 - buscar clima pelo nome da cidade;
-- receber sugestoes de cidades durante a digitacao;
+- receber sugestoes de cidades durante a digitacao, navegaveis por teclado;
 - usar a localizacao atual do navegador;
-- exibir temperatura atual;
-- exibir clima agora em linguagem simples;
-- exibir sensacao termica;
-- exibir chance de chuva;
-- exibir umidade do ar;
-- exibir vento;
-- mostrar previsao dos proximos dias;
-- ativar modo acessivel com fonte maior e mais espacamento;
-- tratar erros, como cidade invalida ou falha na API.
+- buscar por voz (Web Speech API nativa, sem dependencia externa) — a busca acontece automaticamente ao reconhecer a fala;
+- ouvir a previsao em voz alta (ativavel no painel de preferencias);
+- exibir temperatura atual, sensacao termica, chance de chuva, umidade e vento em chips compactos;
+- mostrar previsao dos proximos dias com icone por condicao do tempo;
+- secao "Clima na pratica" com recomendacoes para rotina (roupa do dia, lavar roupa, pele ressecada, mosquitos, vitamina D e mobilidade urbana), com titulo e texto adaptados a cidade pesquisada;
+- painel de preferencias de acessibilidade com 7 controles independentes: aumentar fonte, alto contraste, tema (claro/escuro/automatico), reduzir animacoes, ler previsao em voz alta, destacar foco do teclado e linguagem simplificada — cada um salvo separadamente e sem afetar os outros;
+- tema escuro e alto contraste tambem automaticos, respeitando as preferencias do sistema operacional (`prefers-color-scheme` e `prefers-contrast`);
+- skip link para pular direto ao conteudo principal;
+- layouts especificos por tamanho de tela (nao e so encolher: notebook/tablet paisagem, tablet retrato, celular grande e celular pequeno reorganizam os grids de forma diferente);
+- tratar erros, como cidade invalida, falha na API ou permissao de localizacao/microfone negada, com mensagens especificas por causa.
 
 ## Como executar o projeto
 
@@ -70,6 +75,16 @@ Depois, abra no navegador o endereco exibido no terminal. Normalmente:
 http://localhost:5173/
 ```
 
+### Testar em um celular real
+
+Para abrir o app em um celular na mesma rede Wi-Fi (sem precisar publicar nada):
+
+```bash
+npm run dev -- --host
+```
+
+O terminal mostra uma URL `Network` (ex.: `http://192.168.x.x:5173/`) — abra essa URL no navegador do celular, com os dois dispositivos na mesma rede.
+
 ## Gerar build de producao
 
 ```bash
@@ -82,6 +97,10 @@ npm run build
 npm run test
 ```
 
+## Deploy
+
+O deploy para o GitHub Pages e automatico via GitHub Actions (`.github/workflows/pages.yml`): todo push na branch `main` gera o build e publica o conteudo de `dist/`.
+
 ## Documentacao complementar
 
 - [Acessibilidade](./docs/acessibilidade.md)
@@ -93,4 +112,4 @@ npm run test
 
 ## Relacao com a Generation Brasil
 
-Este projeto foi desenvolvido como pratica de front-end na **Generation Brasil**, aplicando consumo de API, componentizacao, responsividade, tratamento de erros, testes automatizados, melhoria de cache, acessibilidade e deploy com GitHub Pages.
+Este projeto foi desenvolvido como pratica de front-end na **Generation Brasil**, aplicando consumo de API, componentizacao, responsividade, tratamento de erros, testes automatizados, melhoria de cache, acessibilidade e deploy com GitHub Pages. A interface e a camada de acessibilidade passaram por uma refatoracao completa como aprofundamento pessoal do projeto, com foco em UX, design responsivo e WCAG 2.2.
