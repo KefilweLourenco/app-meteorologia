@@ -8,7 +8,7 @@ function Rodape() {
         </a>
         .
       </p>
-      <p className="rodape-nota">Feito com atencao a acessibilidade e ao conforto de leitura.</p>
+      <p className="rodape-nota">Feito com atenção à acessibilidade e ao conforto de leitura.</p>
     </footer>
   );
 }

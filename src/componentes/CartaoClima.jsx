@@ -79,15 +79,15 @@ function CartaoClima({ dados }) {
       {preferencias.leituraEmVozAlta && leituraSuportada ? (
         <button type="button" className="botao-ouvir-previsao" onClick={aoClicarOuvir}>
           <IconeVoz className="icone-inline" />
-          <span>{falando ? "Parar leitura" : "Ouvir previsao"}</span>
+          <span>{falando ? "Parar leitura" : "Ouvir previsão"}</span>
         </button>
       ) : null}
 
       <div className="grade-detalhes">
-        <article className="chip-clima" aria-label={`Sensacao termica de ${formatarTemperatura(dados.sensacaoTermica)}`}>
+        <article className="chip-clima" aria-label={`Sensação térmica de ${formatarTemperatura(dados.sensacaoTermica)}`}>
           <IconeTermometro className="icone-chip" aria-hidden="true" />
           <strong>{formatarTemperatura(dados.sensacaoTermica)}</strong>
-          <span>Sensacao</span>
+          <span>Sensação</span>
         </article>
 
         <article className="chip-clima" aria-label={`Chance de chuva de ${formatarChanceChuva(dados.chanceChuva)}`}>
@@ -112,7 +112,7 @@ function CartaoClima({ dados }) {
       <section className="secao-previsao" aria-labelledby="titulo-previsao">
         <h4 id="titulo-previsao" className="titulo-secao-interna">
           <IconeCalendario className="icone-inline" />
-          <span>Previsao dos proximos dias</span>
+          <span>Previsão dos próximos dias</span>
         </h4>
         <div className="grade-previsao">
           {dados.previsao.map((dia) => {
@@ -122,7 +122,7 @@ function CartaoClima({ dados }) {
               <article
                 key={dia.data}
                 className="dia-previsao"
-                aria-label={`${formatarData(dia.data)} com ${dia.descricao}. Maxima de ${formatarTemperatura(dia.maxima)} e minima de ${formatarTemperatura(dia.minima)}. Chance de chuva: ${formatarChanceChuva(dia.chanceChuva)}`}
+                aria-label={`${formatarData(dia.data)} com ${dia.descricao}. Máxima de ${formatarTemperatura(dia.maxima)} e mínima de ${formatarTemperatura(dia.minima)}. Chance de chuva: ${formatarChanceChuva(dia.chanceChuva)}`}
               >
                 <p className="dia-previsao-data">{formatarData(dia.data)}</p>
                 <IconeDoDia className="icone-chip" aria-hidden="true" />

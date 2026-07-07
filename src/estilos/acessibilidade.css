@@ -5,21 +5,21 @@
   diferenca central em relacao ao antigo "modo acessivel" unico.
 */
 
-/* Aumentar fonte */
+/*
+  Aumentar fonte: 3 niveis (WCAG 1.4.4 pede reescalonamento de texto, nao
+  so um "liga/desliga"). --escala-fonte multiplica TODOS os font-size do
+  site (definido em tokens.css), entao um numero so controla tudo,
+  mantendo a proporcao entre titulo, corpo e legenda. O line-height
+  cresce junto para o texto maior nao ficar apertado.
+*/
 :root[data-fonte="grande"] {
-  --fonte-tamanho-base: 1.125rem;
-  --fonte-tamanho-secundario: 1rem;
-  --fonte-tamanho-label: 1.125rem;
-  --fonte-tamanho-cidade: clamp(2rem, 3.2vw, 2.9rem);
-  --fonte-tamanho-temperatura: clamp(3rem, 5.6vw, 4.3rem);
-  --line-height-base: 1.8;
+  --escala-fonte: 1.15;
+  --line-height-base: 1.7;
 }
 
-/* Alto contraste (escolha manual, independente do prefers-contrast do SO) */
-:root[data-contraste="alto"] {
-  --cor-borda: var(--cor-borda-forte);
-  --cor-texto-secundario: var(--cor-texto);
-  --cor-texto-suave: var(--cor-texto-secundario);
+:root[data-fonte="muito-grande"] {
+  --escala-fonte: 1.3;
+  --line-height-base: 1.8;
 }
 
 /* Tema: escolha manual sobrepoe a preferencia do sistema operacional */
@@ -67,10 +67,87 @@
   --cor-trilho-inativo: var(--paleta-escura-trilho-inativo);
 }
 
+/*
+  Alto contraste (escolha manual, independente do prefers-contrast do SO).
+
+  Precisa vir DEPOIS dos blocos de tema acima: [data-contraste="alto"] e
+  [data-tema="claro"/"escuro"] tem a mesma especificidade (um atributo em
+  :root), entao quem aparece por ultimo no arquivo vence em caso de
+  empate. Colocar alto contraste depois garante que ele sempre sobrepoe a
+  paleta do tema, em vez de ser silenciosamente cancelado por ela.
+
+  E um modo de alto contraste de verdade (preto/branco quase puro,
+  bordas solidas, sem gradiente nem desfoque) - nao so um leve reforco de
+  cor, que na pratica nao se percebia.
+*/
+:root[data-contraste="alto"]:not([data-tema="escuro"]) {
+  --cor-texto: #000000;
+  --cor-texto-secundario: #000000;
+  --cor-texto-suave: #1a1a1a;
+  --cor-superficie: #ffffff;
+  --cor-superficie-forte: #ffffff;
+  --cor-superficie-sutil: #f0f0f0;
+  --cor-borda: #000000;
+  --cor-borda-forte: #000000;
+  --cor-destaque: #003a52;
+  --cor-destaque-escura: #00293a;
+  --cor-sucesso: #0a5c3c;
+  --cor-erro: #7a1414;
+  --cor-foco: #000000;
+}
+
+:root[data-contraste="alto"][data-tema="escuro"] {
+  --cor-texto: #ffffff;
+  --cor-texto-secundario: #ffffff;
+  --cor-texto-suave: #e6e6e6;
+  --cor-superficie: #000000;
+  --cor-superficie-forte: #000000;
+  --cor-superficie-sutil: #1a1a1a;
+  --cor-borda: #ffffff;
+  --cor-borda-forte: #ffffff;
+  --cor-destaque: #7fd4ff;
+  --cor-destaque-escura: #4db8f0;
+  --cor-sucesso: #6ee7a8;
+  --cor-erro: #ff9d9d;
+  --cor-foco: #ffffff;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root[data-contraste="alto"][data-tema="automatico"] {
+    --cor-texto: #ffffff;
+    --cor-texto-secundario: #ffffff;
+    --cor-texto-suave: #e6e6e6;
+    --cor-superficie: #000000;
+    --cor-superficie-forte: #000000;
+    --cor-superficie-sutil: #1a1a1a;
+    --cor-borda: #ffffff;
+    --cor-borda-forte: #ffffff;
+    --cor-destaque: #7fd4ff;
+    --cor-destaque-escura: #4db8f0;
+    --cor-sucesso: #6ee7a8;
+    --cor-erro: #ff9d9d;
+    --cor-foco: #ffffff;
+  }
+}
+
+/* Remove gradiente e desfoque translucido: reduzem nitidez de borda no alto contraste */
+:root[data-contraste="alto"] .painel-principal,
+:root[data-contraste="alto"] .cartao-clima,
+:root[data-contraste="alto"] .secao-clima-pratica,
+:root[data-contraste="alto"] .painel-acessibilidade {
+  backdrop-filter: none;
+}
+
+:root[data-contraste="alto"] .linha-busca button,
+:root[data-contraste="alto"] .botao-localizacao {
+  background: var(--cor-destaque);
+}
+
 /* Reduzir animacoes: escolha manual, mesma regra do prefers-reduced-motion do SO */
 :root[data-movimento="reduzido"] *,
 :root[data-movimento="reduzido"] *::before,
-:root[data-movimento="reduzido"] *::after {
+:root[data-movimento="reduzido"] *::after,
+:root[data-movimento="reduzido"] *::backdrop {
   animation: none !important;
   transition: none !important;
   scroll-behavior: auto !important;

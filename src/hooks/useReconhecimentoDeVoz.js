@@ -10,13 +10,13 @@ function obterConstrutorReconhecimento() {
 
 const mensagensDeErro = {
   "not-allowed": "Permita o acesso ao microfone para usar a busca por voz.",
-  "no-speech": "Nao conseguimos ouvir nada. Tente falar novamente.",
+  "no-speech": "Não conseguimos ouvir nada. Tente falar novamente.",
   "audio-capture": "Nenhum microfone foi encontrado neste dispositivo.",
-  network: "Falha de conexao durante o reconhecimento de voz."
+  network: "Falha de conexão durante o reconhecimento de voz."
 };
 
 function descreverErroDeReconhecimento(codigo) {
-  return mensagensDeErro[codigo] || "Nao foi possivel reconhecer sua voz. Tente novamente.";
+  return mensagensDeErro[codigo] || "Não foi possível reconhecer sua voz. Tente novamente.";
 }
 
 export function useReconhecimentoDeVoz() {
@@ -35,7 +35,7 @@ export function useReconhecimentoDeVoz() {
 
   const iniciar = useCallback(() => {
     if (!suportado) {
-      setErro("Seu navegador nao suporta busca por voz.");
+      setErro("Seu navegador não suporta busca por voz.");
       return;
     }
 

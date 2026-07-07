@@ -72,10 +72,33 @@ a:focus-visible,
   top: 1rem;
 }
 
+@keyframes girar {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.icone-carregando {
+  animation: girar 0.8s linear infinite;
+}
+
+@keyframes entrada-suave {
+  from {
+    opacity: 0;
+    transform: translateY(0.75rem);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
-  *::after {
+  *::after,
+  *::backdrop {
     animation: none !important;
     transition: none !important;
     scroll-behavior: auto !important;

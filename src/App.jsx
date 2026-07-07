@@ -23,7 +23,7 @@ function App() {
     const { sucesso } = busca.confirmarBusca();
 
     if (!sucesso) {
-      clima.atualizarMensagem("Erro: digite o nome de uma cidade para buscar a previsao.", "erro");
+      clima.atualizarMensagem("Erro: digite o nome de uma cidade para buscar a previsão.", "erro");
     }
   }
 

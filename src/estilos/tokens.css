@@ -1,12 +1,20 @@
 :root {
-  /* Tipografia */
+  /*
+    Tipografia. --escala-fonte e o multiplicador global de tamanho de texto
+    controlado pela preferencia "Aumentar fonte" (padrao/grande/muito
+    grande, ver acessibilidade.css). Todo font-size do projeto (inclusive
+    os tokens abaixo) e escrito como calc(valor * var(--escala-fonte)),
+    entao mudar esse unico numero escala o texto do site inteiro mantendo
+    as proporcoes entre titulo, corpo e legenda.
+  */
+  --escala-fonte: 1;
   --fonte-principal: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, Verdana, sans-serif;
-  --fonte-tamanho-base: 1rem;
-  --fonte-tamanho-secundario: 0.9375rem;
-  --fonte-tamanho-label: 1rem;
-  --fonte-tamanho-titulo: clamp(2.4rem, 4.6vw, 4.2rem);
-  --fonte-tamanho-cidade: clamp(1.75rem, 3vw, 2.5rem);
-  --fonte-tamanho-temperatura: clamp(2.5rem, 5vw, 4rem);
+  --fonte-tamanho-base: calc(1rem * var(--escala-fonte));
+  --fonte-tamanho-secundario: calc(0.9375rem * var(--escala-fonte));
+  --fonte-tamanho-label: calc(1rem * var(--escala-fonte));
+  --fonte-tamanho-titulo: calc(clamp(2.4rem, 4.6vw, 4.2rem) * var(--escala-fonte));
+  --fonte-tamanho-cidade: calc(clamp(1.75rem, 3vw, 2.5rem) * var(--escala-fonte));
+  --fonte-tamanho-temperatura: calc(clamp(2.5rem, 5vw, 4rem) * var(--escala-fonte));
   --fonte-peso-normal: 400;
   --fonte-peso-medio: 500;
   --fonte-peso-forte: 700;
@@ -35,6 +43,7 @@
   /* Movimento: durações para microinterações futuras, sempre respeitando prefers-reduced-motion (ver base.css) */
   --duracao-rapida: 120ms;
   --duracao-base: 200ms;
+  --duracao-lenta: 400ms;
   --facilitador-padrao: cubic-bezier(0.4, 0, 0.2, 1);
 
   /*

@@ -1,5 +1,5 @@
 const codigosClima = {
-  0: "Ceu limpo",
+  0: "Céu limpo",
   1: "Predominantemente limpo",
   2: "Parcialmente nublado",
   3: "Nublado",
@@ -71,7 +71,7 @@ function salvarCache(chave, dados) {
       })
     );
   } catch {
-    // Nao interrompe o fluxo principal se o cache falhar.
+    // Não interrompe o fluxo principal se o cache falhar.
   }
 }
 
@@ -79,13 +79,13 @@ async function converterRespostaEmJson(resposta) {
   try {
     return await resposta.json();
   } catch {
-    throw new Error("Nao foi possivel interpretar a resposta da API.");
+    throw new Error("Não foi possível interpretar a resposta da API.");
   }
 }
 
 export async function buscarCidade(cidade) {
   if (!cidade || !cidade.trim()) {
-    throw new Error("Digite o nome de uma cidade para buscar a previsao.");
+    throw new Error("Digite o nome de uma cidade para buscar a previsão.");
   }
 
   const cidadeNormalizada = cidade.trim();
@@ -110,17 +110,17 @@ export async function buscarCidade(cidade) {
       `https://geocoding-api.open-meteo.com/v1/search?${parametros.toString()}`
     );
   } catch {
-    throw new Error("Falha de conexao ao buscar a cidade. Verifique sua internet e tente novamente.");
+    throw new Error("Falha de conexão ao buscar a cidade. Verifique sua internet e tente novamente.");
   }
 
   const dados = await converterRespostaEmJson(resposta);
 
   if (!resposta.ok || dados.error) {
-    throw new Error(dados.reason || "Nao foi possivel buscar a cidade agora.");
+    throw new Error(dados.reason || "Não foi possível buscar a cidade agora.");
   }
 
   if (!dados.results || dados.results.length === 0) {
-    throw new Error("Cidade nao encontrada. Verifique o nome e tente novamente.");
+    throw new Error("Cidade não encontrada. Verifique o nome e tente novamente.");
   }
 
   const cidadeEncontrada = dados.results[0];
@@ -194,13 +194,13 @@ async function buscarNomeDaLocalizacao(latitude, longitude) {
       `https://nominatim.openstreetmap.org/reverse?${parametros.toString()}`
     );
   } catch {
-    return `Sua localizacao atual (${latitude.toFixed(2)}, ${longitude.toFixed(2)})`;
+    return `Sua localização atual (${latitude.toFixed(2)}, ${longitude.toFixed(2)})`;
   }
 
   const dados = await converterRespostaEmJson(resposta);
 
   if (!resposta.ok || !dados.address) {
-    return `Sua localizacao atual (${latitude.toFixed(2)}, ${longitude.toFixed(2)})`;
+    return `Sua localização atual (${latitude.toFixed(2)}, ${longitude.toFixed(2)})`;
   }
 
   const cidade =
@@ -214,14 +214,14 @@ async function buscarNomeDaLocalizacao(latitude, longitude) {
   const pais = dados.address.country;
 
   if (!cidade) {
-    return `Sua localizacao atual (${latitude.toFixed(2)}, ${longitude.toFixed(2)})`;
+    return `Sua localização atual (${latitude.toFixed(2)}, ${longitude.toFixed(2)})`;
   }
 
   return `${cidade}${estado ? `, ${estado}` : ""}${pais ? `, ${pais}` : ""}`;
 }
 
 function descreverCodigoClima(codigo) {
-  return codigosClima[codigo] || "Sem descricao";
+  return codigosClima[codigo] || "Sem descrição";
 }
 
 function montarPrevisaoDiaria(dadosDaily) {
@@ -289,13 +289,13 @@ export async function buscarPrevisao(latitude, longitude) {
       `https://api.open-meteo.com/v1/forecast?${parametros.toString()}`
     );
   } catch {
-    throw new Error("Falha de conexao ao buscar o clima. Verifique sua internet e tente novamente.");
+    throw new Error("Falha de conexão ao buscar o clima. Verifique sua internet e tente novamente.");
   }
 
   const dados = await converterRespostaEmJson(resposta);
 
   if (!resposta.ok || dados.error) {
-    throw new Error(dados.reason || "Nao foi possivel buscar o clima agora.");
+    throw new Error(dados.reason || "Não foi possível buscar o clima agora.");
   }
 
   if (!dados.current || !dados.daily || !Array.isArray(dados.daily.time)) {
@@ -322,7 +322,7 @@ export async function buscarClimaPorSugestao(sugestao) {
       country: sugestao.pais
     },
     dados,
-    "sugestao de cidade"
+    "sugestão de cidade"
   );
 }
 
@@ -334,7 +334,7 @@ export async function buscarClimaPorCoordenadas(latitude, longitude) {
 
   return {
     cidade: nomeDaLocalizacao,
-    origem: "localizacao atual",
+    origem: "localização atual",
     temperatura: dados.current.temperature_2m,
     sensacaoTermica: dados.current.apparent_temperature,
     chanceChuva: dados.daily.precipitation_probability_max?.[0] ?? null,

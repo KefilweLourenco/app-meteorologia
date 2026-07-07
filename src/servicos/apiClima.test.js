@@ -45,7 +45,7 @@ describe("apiClima", () => {
       fetch.mockResolvedValue(criarRespostaJson({ results: [] }));
 
       await expect(buscarCidade("CidadeFake123")).rejects.toThrow(
-        "Cidade nao encontrada. Verifique o nome e tente novamente."
+        "Cidade não encontrada. Verifique o nome e tente novamente."
       );
     });
 
@@ -59,7 +59,7 @@ describe("apiClima", () => {
 
     it("deve lancar erro quando a entrada estiver vazia", async () => {
       await expect(buscarCidade("   ")).rejects.toThrow(
-        "Digite o nome de uma cidade para buscar a previsao."
+        "Digite o nome de uma cidade para buscar a previsão."
       );
       expect(fetch).not.toHaveBeenCalled();
     });
@@ -68,7 +68,7 @@ describe("apiClima", () => {
       fetch.mockRejectedValue(new Error("Network error"));
 
       await expect(buscarCidade("Sao Paulo")).rejects.toThrow(
-        "Falha de conexao ao buscar a cidade. Verifique sua internet e tente novamente."
+        "Falha de conexão ao buscar a cidade. Verifique sua internet e tente novamente."
       );
     });
   });
@@ -243,7 +243,7 @@ describe("apiClima", () => {
       fetch.mockRejectedValue(new Error("Network error"));
 
       await expect(buscarPrevisao(-23.55, -46.63)).rejects.toThrow(
-        "Falha de conexao ao buscar o clima. Verifique sua internet e tente novamente."
+        "Falha de conexão ao buscar o clima. Verifique sua internet e tente novamente."
       );
     });
 

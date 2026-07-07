@@ -3,8 +3,8 @@ import { buscarSugestoesCidade } from "../servicos/apiClima";
 
 /**
  * @param {(cidade: string, sugestao: object | null) => void} aoConfirmar
- *   Chamado quando o usuario confirma uma busca (submit do formulario,
- *   clique numa sugestao ou Enter com uma sugestao ativa).
+ *   Chamado quando o usuário confirma uma busca (submit do formulário,
+ *   clique numa sugestão ou Enter com uma sugestão ativa).
  */
 export function useBuscaDeCidade(aoConfirmar) {
   const [cidade, setCidade] = useState("");

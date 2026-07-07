@@ -3,7 +3,7 @@ import { createContext, useContext, useEffect, useMemo, useState } from "react";
 const CHAVE_ARMAZENAMENTO = "preferencias-acessibilidade";
 
 const preferenciasPadrao = {
-  fonteAumentada: false,
+  tamanhoFonte: "padrao",
   altoContraste: false,
   tema: "automatico",
   reduzirAnimacoes: false,
@@ -43,14 +43,14 @@ export function AcessibilidadeProvider({ children }) {
     try {
       window.localStorage.setItem(CHAVE_ARMAZENAMENTO, JSON.stringify(preferencias));
     } catch {
-      // Modo privado ou armazenamento cheio: a preferencia so vale para esta sessao.
+      // Modo privado ou armazenamento cheio: a preferência só vale para esta sessão.
     }
   }, [preferencias]);
 
   useEffect(() => {
     const raiz = document.documentElement;
 
-    raiz.setAttribute("data-fonte", preferencias.fonteAumentada ? "grande" : "padrao");
+    raiz.setAttribute("data-fonte", preferencias.tamanhoFonte);
     raiz.setAttribute("data-contraste", preferencias.altoContraste ? "alto" : "padrao");
     raiz.setAttribute("data-tema", preferencias.tema);
     raiz.setAttribute("data-movimento", preferencias.reduzirAnimacoes ? "reduzido" : "padrao");

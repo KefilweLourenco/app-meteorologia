@@ -14,21 +14,55 @@ import {
 const opcoesTema = [
   { valor: "claro", rotulo: "Claro" },
   { valor: "escuro", rotulo: "Escuro" },
-  { valor: "automatico", rotulo: "Automatico" }
+  { valor: "automatico", rotulo: "Automático" }
 ];
 
-function LinhaAlternavel({ icone: Icone, rotulo, chave, valor, aoAlternar }) {
+const opcoesFonte = [
+  { valor: "padrao", rotulo: "Padrão" },
+  { valor: "grande", rotulo: "Grande" },
+  { valor: "muito-grande", rotulo: "Muito grande" }
+];
+
+function LinhaAlternavel({ icone: Icone, rotulo, descricao, chave, valor, aoAlternar }) {
   return (
     <label className="linha-preferencia">
-      <span className="rotulo-preferencia">
-        <Icone className="icone-inline" />
-        {rotulo}
+      <span className="rotulo-preferencia-bloco">
+        <span className="rotulo-preferencia">
+          <Icone className="icone-inline" />
+          {rotulo}
+        </span>
+        {descricao ? <span className="descricao-preferencia">{descricao}</span> : null}
       </span>
       <span className="interruptor">
         <input type="checkbox" checked={valor} onChange={() => aoAlternar(chave)} />
         <span className="trilho-interruptor" aria-hidden="true"></span>
       </span>
     </label>
+  );
+}
+
+function LinhaSegmentada({ icone: Icone, rotulo, opcoes, valorAtual, aoEscolher }) {
+  return (
+    <div className="linha-preferencia linha-preferencia-segmentada">
+      <span className="rotulo-preferencia">
+        <Icone className="icone-inline" />
+        {rotulo}
+      </span>
+      <div className="segmentado" role="radiogroup" aria-label={rotulo}>
+        {opcoes.map((opcao) => (
+          <button
+            key={opcao.valor}
+            type="button"
+            role="radio"
+            aria-checked={valorAtual === opcao.valor}
+            className={`opcao-segmentada ${valorAtual === opcao.valor ? "opcao-segmentada-ativa" : ""}`}
+            onClick={() => aoEscolher(opcao.valor)}
+          >
+            {opcao.rotulo}
+          </button>
+        ))}
+      </div>
+    </div>
   );
 }
 
@@ -59,28 +93,28 @@ function PainelAcessibilidade({ aberto, aoFechar }) {
       onCancel={aoFechar}
     >
       <div className="cabecalho-painel-acessibilidade">
-        <h2 id="titulo-painel-acessibilidade">Preferencias de acessibilidade</h2>
+        <h2 id="titulo-painel-acessibilidade">Preferências de acessibilidade</h2>
         <button
           type="button"
           className="botao-fechar-painel"
           onClick={aoFechar}
-          aria-label="Fechar preferencias de acessibilidade"
+          aria-label="Fechar preferências de acessibilidade"
         >
           <IconeFechar className="icone-inline" />
         </button>
       </div>
 
       <p className="texto-ajuda-painel">
-        Cada preferencia funciona sozinha. Ative apenas o que voce precisa.
+        Cada preferência funciona sozinha. Ative apenas o que você precisa.
       </p>
 
       <div className="lista-preferencias">
-        <LinhaAlternavel
+        <LinhaSegmentada
           icone={IconeFonte}
-          rotulo="Aumentar fonte"
-          chave="fonteAumentada"
-          valor={preferencias.fonteAumentada}
-          aoAlternar={alternarPreferencia}
+          rotulo="Tamanho da fonte"
+          opcoes={opcoesFonte}
+          valorAtual={preferencias.tamanhoFonte}
+          aoEscolher={(valor) => atualizarPreferencia("tamanhoFonte", valor)}
         />
 
         <LinhaAlternavel
@@ -91,30 +125,17 @@ function PainelAcessibilidade({ aberto, aoFechar }) {
           aoAlternar={alternarPreferencia}
         />
 
-        <div className="linha-preferencia">
-          <span className="rotulo-preferencia">
-            <IconeTela className="icone-inline" />
-            Tema
-          </span>
-          <div className="segmentado" role="radiogroup" aria-label="Tema">
-            {opcoesTema.map((opcao) => (
-              <button
-                key={opcao.valor}
-                type="button"
-                role="radio"
-                aria-checked={preferencias.tema === opcao.valor}
-                className={`opcao-segmentada ${preferencias.tema === opcao.valor ? "opcao-segmentada-ativa" : ""}`}
-                onClick={() => atualizarPreferencia("tema", opcao.valor)}
-              >
-                {opcao.rotulo}
-              </button>
-            ))}
-          </div>
-        </div>
+        <LinhaSegmentada
+          icone={IconeTela}
+          rotulo="Tema"
+          opcoes={opcoesTema}
+          valorAtual={preferencias.tema}
+          aoEscolher={(valor) => atualizarPreferencia("tema", valor)}
+        />
 
         <LinhaAlternavel
           icone={IconeMovimento}
-          rotulo="Reduzir animacoes"
+          rotulo="Reduzir animações"
           chave="reduzirAnimacoes"
           valor={preferencias.reduzirAnimacoes}
           aoAlternar={alternarPreferencia}
@@ -122,7 +143,7 @@ function PainelAcessibilidade({ aberto, aoFechar }) {
 
         <LinhaAlternavel
           icone={IconeVoz}
-          rotulo="Ler previsao em voz alta"
+          rotulo="Ler previsão em voz alta"
           chave="leituraEmVozAlta"
           valor={preferencias.leituraEmVozAlta}
           aoAlternar={alternarPreferencia}
@@ -131,6 +152,7 @@ function PainelAcessibilidade({ aberto, aoFechar }) {
         <LinhaAlternavel
           icone={IconeTeclado}
           rotulo="Destacar foco do teclado"
+          descricao="Deixa o contorno de foco mais grosso ao navegar com a tecla Tab."
           chave="destacarFoco"
           valor={preferencias.destacarFoco}
           aoAlternar={alternarPreferencia}

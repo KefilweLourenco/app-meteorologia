@@ -5,7 +5,7 @@ import { IconeMicrofone } from "./Icones";
 function extrairCidadeDaFala(transcricao) {
   return transcricao
     .toLowerCase()
-    .replace(/previsao( do tempo)? para/g, "")
+    .replace(/previsão( do tempo)? para/g, "")
     .replace(/tempo em/g, "")
     .replace(/clima em/g, "")
     .trim();

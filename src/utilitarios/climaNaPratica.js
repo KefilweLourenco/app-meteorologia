@@ -375,3 +375,16 @@ export function gerarClimaNaPratica(dadosClima) {
     gerarMobilidadeUrbana(base)
   ];
 }
+
+export function formatarResumoPratica(insights) {
+  if (!insights || insights.length === 0) {
+    return "";
+  }
+
+  return insights
+    .map(
+      (insight) =>
+        `${insight.titulo}, nível ${insight.nivel.toLowerCase()}. ${insight.descricao} ${insight.recomendacao}`
+    )
+    .join(" ");
+}

@@ -1,12 +1,17 @@
+import { useAcessibilidade } from "../contexto/AcessibilidadeContext";
 import { IconeBusca } from "./Icones";
 import SugestoesCidade from "./SugestoesCidade";
 
 function BuscaClima({ busca, carregando, aoEnviar }) {
+  const { preferencias } = useAcessibilidade();
+
   return (
     <form className="formulario-busca" role="search" onSubmit={aoEnviar}>
       <label htmlFor="cidade" className="rotulo-campo">Nome da cidade</label>
       <p id="ajuda-cidade" className="texto-ajuda">
-        Digite duas letras ou mais para ver sugestoes.
+        {preferencias.linguagemSimples
+          ? "Digite ao menos 2 letras para ver sugestões de cidade."
+          : "Digite duas letras ou mais para ver sugestões."}
       </p>
 
       <div className="area-busca">
@@ -14,7 +19,7 @@ function BuscaClima({ busca, carregando, aoEnviar }) {
           <input
             id="cidade"
             type="text"
-            placeholder="Ex.: Sao Paulo"
+            placeholder="Ex.: São Paulo"
             autoComplete="off"
             value={busca.cidade}
             role="combobox"
@@ -31,7 +36,7 @@ function BuscaClima({ busca, carregando, aoEnviar }) {
           />
 
           <button type="submit" disabled={carregando} className="botao-busca">
-            <IconeBusca />
+            <IconeBusca className={carregando ? "icone-carregando" : ""} />
             <span>{carregando ? "Carregando..." : "Buscar"}</span>
           </button>
         </div>

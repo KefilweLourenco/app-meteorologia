@@ -4,10 +4,10 @@ function SugestoesCidade({ sugestoes, carregando, indiceAtivo, onSelecionar }) {
       className="lista-sugestoes"
       id="lista-sugestoes-cidade"
       role="listbox"
-      aria-label="Sugestoes de cidades"
+      aria-label="Sugestões de cidades"
     >
       {carregando ? (
-        <p className="sugestao-status" role="status">Buscando sugestoes...</p>
+        <p className="sugestao-status" role="status">Buscando sugestões...</p>
       ) : (
         sugestoes.map((sugestao, indice) => (
           <button

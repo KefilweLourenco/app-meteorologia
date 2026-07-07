@@ -12,7 +12,7 @@ export function formatarVelocidadeVento(valor) {
 
 export function formatarChanceChuva(valor) {
   if (typeof valor !== "number") {
-    return "Nao informado";
+    return "Não informado";
   }
 
   return `${Math.round(valor)}%`;
@@ -28,12 +28,12 @@ export function formatarData(data) {
 
 export function formatarResumoClima(dados) {
   const chance =
-    typeof dados.chanceChuva === "number" ? `${Math.round(dados.chanceChuva)}%` : "sem previsao";
+    typeof dados.chanceChuva === "number" ? `${Math.round(dados.chanceChuva)}%` : "sem previsão";
 
   return (
     `Em ${dados.cidade}, ${dados.descricao.toLowerCase()}, com temperatura de ` +
-    `${Math.round(dados.temperatura)} graus e sensacao termica de ${Math.round(dados.sensacaoTermica)} graus. ` +
-    `Umidade de ${Math.round(dados.umidade)} por cento e vento de ${Math.round(dados.velocidadeVento)} quilometros por hora. ` +
+    `${Math.round(dados.temperatura)} graus e sensação térmica de ${Math.round(dados.sensacaoTermica)} graus. ` +
+    `Umidade de ${Math.round(dados.umidade)} por cento e vento de ${Math.round(dados.velocidadeVento)} quilômetros por hora. ` +
     `Chance de chuva: ${chance}.`
   );
 }
